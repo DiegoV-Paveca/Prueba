@@ -1,0 +1,648 @@
+﻿/* ==========================================================================
+   PAVECA - Hoja de Estilos Principal
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES GLOBALES
+   -------------------------------------------------------------------------- */
+:root {
+    --pv-primary: #007853; /* Verde PAVECA */
+    --pv-primary-700: #006447; /* Más oscuro p/hover */
+    --pv-primary-900: #003e2a; /* Texto sobre blanco/acentos */
+    --pv-ink: #0f172a; /* Texto principal oscuro */
+    --pv-muted: #6b7280; /* Texto secundario */
+    --pv-border: #e6e9ee; /* Bordes sutiles */
+    --pv-tint: #f3faf7; /* Fondo claro con tinte verde */
+    --pv-white: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   2. ESTILOS GLOBALES Y DE ETIQUETAS
+   -------------------------------------------------------------------------- */
+body {
+    background-color: antiquewhite;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    /* background-image: url('../imagenes/papel-de-venezolanos-celebra-71-anos-de-liderazgo-y-compromiso-con-la-calidad.jpg'); */
+}
+
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* --------------------------------------------------------------------------
+   3. LAYOUT GENERAL
+   -------------------------------------------------------------------------- */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   4. NAVEGACIÓN (NAVBAR)
+   -------------------------------------------------------------------------- */
+nav.navbar {
+    min-height: 50px;
+}
+
+    nav.navbar.navbar-paveca {
+        background-color: var(--pv-primary) !important;
+        border-bottom: 1px solid var(--pv-primary-700);
+    }
+
+        nav.navbar.navbar-paveca .navbar-brand,
+        nav.navbar.navbar-paveca .nav-link,
+        nav.navbar.navbar-paveca .navbar-text {
+            color: var(--pv-white) !important;
+        }
+
+            nav.navbar.navbar-paveca .nav-link:hover,
+            nav.navbar.navbar-paveca .nav-link:focus,
+            nav.navbar.navbar-paveca .nav-link.active {
+                color: var(--pv-white) !important;
+                background-color: var(--pv-primary-700) !important;
+                border-radius: 0.25rem;
+            }
+
+        nav.navbar.navbar-paveca .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+            nav.navbar.navbar-paveca .navbar-toggler .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+
+/* --------------------------------------------------------------------------
+   5. SECCIÓN HERO
+   -------------------------------------------------------------------------- */
+.hero-center {
+    background-color: var(--pv-primary);
+    color: var(--pv-white);
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 20px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1200px;
+    font-weight: bold;
+}
+
+.hero-box h1 {
+    color: var(--pv-white) !important;
+}
+
+.hero-box .lead {
+    color: #f8f9fa !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.col-md-12 .lead {
+    color: #000000;
+}
+
+/* Hero Minimalista */
+.pv-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(100deg, var(--pv-primary) 0%, #006d4e 50%, var(--pv-primary-700) 100%);
+    color: var(--pv-white);
+    padding: 40px 20px;
+    border-radius: 9px;
+}
+
+    .pv-hero h1 {
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .pv-hero p.lead {
+        color: rgba(255, 255, 255, 0.92);
+        margin-bottom: 1.5rem;
+    }
+
+/* --------------------------------------------------------------------------
+   6. COMPONENTES (Tarjetas, KPIs, CTAs)
+   -------------------------------------------------------------------------- */
+/* KPIs / Banda de métricas */
+.pv-kpis {
+    background: var(--pv-tint);
+    border: 1px solid var(--pv-border);
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.pv-kpi h3 {
+    color: var(--pv-primary);
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.pv-kpi p {
+    color: var(--pv-muted);
+    margin: 0;
+}
+
+/* Tarjetas Mínimas */
+.pv-card {
+    background: var(--pv-white);
+    border: 1px solid var(--pv-border);
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    transition: box-shadow 0.2s ease, transform 0.08s ease, border-color 0.2s;
+}
+
+    .pv-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(16, 24, 40, 0.08);
+        border-color: #dfe5ea;
+    }
+
+    .pv-card .pv-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(0, 120, 83, 0.12);
+        color: var(--pv-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .pv-card h5 {
+        margin: 0 0 0.35rem 0;
+    }
+
+    .pv-card p {
+        color: var(--pv-muted);
+        margin: 0;
+    }
+
+/* CTA Final */
+.pv-cta {
+    background: var(--pv-white);
+    border: 1px solid var(--pv-border);
+    border-radius: 12px;
+    padding: 28px;
+}
+
+    .pv-cta .btn {
+        padding: 0.9rem 1.15rem;
+        border-radius: 0.6rem;
+    }
+
+/* --------------------------------------------------------------------------
+   7. BOTONES
+   -------------------------------------------------------------------------- */
+/* Botón Corporativo */
+.btn-pantone-341c {
+    background-color: var(--pv-primary) !important;
+    border-color: var(--pv-primary-700) !important;
+    color: var(--pv-white) !important;
+}
+
+    .btn-pantone-341c:hover,
+    .btn-pantone-341c:focus {
+        background-color: var(--pv-primary-700) !important;
+        border-color: #004f36 !important;
+        color: var(--pv-white) !important;
+    }
+
+/* Botones Hero */
+.btn-primary-invert,
+.btn-outline-light {
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    transform: translateY(0);
+    transition: transform 0.12s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pv-hero .btn-primary-invert {
+    background: var(--pv-white);
+    color: var(--pv-primary-900);
+    border: none;
+    font-weight: 700;
+    padding: 0.9rem 1.15rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+}
+
+.pv-hero .btn-outline-light {
+    background: transparent;
+    color: var(--pv-white);
+    border: 1.5px solid rgba(255, 255, 255, 0.65);
+    font-weight: 600;
+    padding: 0.9rem 1.15rem;
+    border-radius: 0.6rem;
+}
+
+/* Hover suave en botones del hero */
+.btn-primary-invert:hover,
+.btn-outline-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.pv-hero .btn-outline-light:hover {
+    border-color: var(--pv-white);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Accesibilidad en botones */
+.btn-primary-invert:focus-visible,
+.btn-outline-light:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 120, 83, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   8. MEDIA QUERIES (Responsividad y Accesibilidad)
+   -------------------------------------------------------------------------- */
+/* Tipografía adaptativa Hero */
+@media (min-width: 992px) {
+    .pv-hero h1 {
+        font-size: 3rem; /* ~48px */
+    }
+}
+
+@media (max-width: 991.98px) {
+    .pv-hero {
+        padding: 56px 0;
+    }
+
+        .pv-hero h1 {
+            font-size: 2.25rem; /* ~36px */
+        }
+
+        .pv-hero .btn-stack > * {
+            width: 100%;
+        }
+}
+
+/* Respeto a usuarios con movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .btn-primary-invert,
+    .btn-outline-light {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+/* =========================
+   NAVBAR PAVECA (minimal)
+   ========================= */
+.navbar-paveca {
+    background: #007853; /* verde PAVECA */
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    --pv-nav-text: #ffffff; /* texto principal */
+    --pv-nav-muted: rgba(255,255,255,.75);
+    --pv-nav-hover: #ffffff;
+    --pv-nav-active-underline: #ffffff;
+}
+
+    .navbar-paveca .navbar-brand {
+        color: var(--pv-nav-text) !important;
+        font-weight: 700;
+        letter-spacing: .2px;
+        padding-top: .55rem;
+        padding-bottom: .55rem;
+    }
+
+    .navbar-paveca .navbar-nav .nav-link {
+        color: var(--pv-nav-muted);
+        padding: .55rem .9rem; /* más aire horizontal */
+        position: relative;
+        transition: color .18s ease;
+        font-weight: 500;
+    }
+
+        /* Hover: color + subrayado suave con “underline animado” */
+        .navbar-paveca .navbar-nav .nav-link:hover,
+        .navbar-paveca .navbar-nav .nav-link:focus {
+            color: var(--pv-nav-hover);
+        }
+
+        .navbar-paveca .navbar-nav .nav-link::after {
+            content: "";
+            position: absolute;
+            left: .9rem;
+            right: .9rem;
+            bottom: .35rem;
+            height: 2px;
+            background: transparent;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform .18s ease, background-color .18s ease;
+        }
+
+        .navbar-paveca .navbar-nav .nav-link:hover::after,
+        .navbar-paveca .navbar-nav .nav-link:focus::after {
+            background: rgba(255,255,255,.65);
+            transform: scaleX(1);
+        }
+
+        /* Estado activo: color pleno + subrayado sólido */
+        .navbar-paveca .navbar-nav .nav-link.active,
+        .navbar-paveca .navbar-nav .nav-link[aria-current="page"] {
+            color: var(--pv-nav-hover) !important;
+        }
+
+            .navbar-paveca .navbar-nav .nav-link.active::after,
+            .navbar-paveca .navbar-nav .nav-link[aria-current="page"]::after {
+                background: var(--pv-nav-active-underline);
+                transform: scaleX(1);
+            }
+
+    /* Login (texto a la derecha) */
+    .navbar-paveca .navbar-text {
+        color: var(--pv-nav-muted);
+        margin: 0;
+    }
+
+    /* Toggler en tema oscuro */
+    .navbar-paveca .navbar-toggler {
+        border-color: rgba(255,255,255,.35);
+    }
+
+    .navbar-paveca .navbar-toggler-icon {
+        filter: invert(1) grayscale(100%); /* icono blanco */
+    }
+
+    /* Espaciados y contenedor */
+    .navbar-paveca .container {
+        gap: .75rem;
+    }
+
+/* Opcional: pequeña sombra para separar del contenido */
+.navbar-paveca {
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+
+/* Responsive: más aire clickable en móvil */
+@media (max-width: 575.98px) {
+    .navbar-paveca .navbar-nav .nav-link {
+        padding: .65rem .4rem;
+    }
+
+        .navbar-paveca .navbar-nav .nav-link::after {
+            left: .4rem;
+            right: .4rem;
+        }
+}
+/* ===== Logo en navbar: tamaño, contraste y resalte ===== */
+
+/* Contenedor tipo "pastilla" para resaltar el logo */
+
+.navbar-paveca .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 4px;
+    border-radius: 6px;
+
+    /* Fondo más sólido para que el logo se vea BIEN */
+    background: rgba(255, 255, 255, 1); /* antes era 0.12 → muy transparente */
+    border: 1px solid rgba(255, 255, 255, 0.35);
+
+    /* Sombra suave para que destaque sobre el verde */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .20);
+}
+
+
+/* Tamaño del logo y legibilidad */
+
+.navbar-paveca .navbar-logo {
+    display: block;
+    height: 38px;       /* <= tamaño perfecto para navbar */
+    width: auto;
+
+    opacity: 1;         /* antes estaba en .88 → lo hacía más apagado */
+
+    /* Si el PNG tiene colores suaves, esto ayuda */
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.35));
+}
+
+
+/* En pantallas ≥ md, hazlo un poco más grande */
+@media (min-width: 768px) {
+    .navbar-paveca .navbar-logo {
+        height: 36px;
+    }
+}
+
+/* Si el PNG tiene mucho espacio blanco alrededor, puedes limitar el ancho total */
+.navbar-paveca .brand-badge {
+    max-height: 50px;
+}
+
+/* Si algún día usas un SVG o un logo muy grande, garantiza que no rompa la barra */
+.navbar-paveca .navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+
+/* (Opcional) Variante de resalte más fuerte si lo quieres más “pill” llamativo */
+/*
+.navbar-paveca .brand-badge{
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,.25);
+}
+*/
+
+/* (Opcional) Si usas navbar fija, compensa el body */
+/* body { padding-top: 56px; } */
+
+/* =====================
+   Proyección (PAVECA)
+   ===================== */
+.page-proyect .pv-title {
+    color: var(--pv-ink, #0f172a);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+}
+
+.page-proyect .pv-subtitle {
+    color: var(--pv-muted, #6b7280);
+    font-size: .95rem;
+}
+
+.page-proyect .pv-header .pv-toolbar .btn {
+    border-radius: .55rem;
+}
+
+.page-proyect .pv-header .btn-outline-secondary {
+    border-color: #d7dce2;
+    color: #334155;
+    background: #fff;
+}
+
+    .page-proyect .pv-header .btn-outline-secondary:hover {
+        background: #f3f4f6;
+    }
+
+.page-proyect .pv-header .btn-success {
+    background: #007853; /* PAVECA */
+    border-color: #007853;
+}
+
+    .page-proyect .pv-header .btn-success:hover {
+        background: #006447;
+        border-color: #006447;
+    }
+
+/* KPIs compactos */
+.page-proyect .pv-kpi {
+    background: #fff;
+    border: 1px solid #e6e9ee;
+    border-radius: .8rem;
+    padding: .9rem 1rem;
+}
+
+.page-proyect .pv-kpi-label {
+    display: block;
+    font-size: .78rem;
+    color: #6b7280;
+}
+
+.page-proyect .pv-kpi-value {
+    display: block;
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+/* Tarjeta principal del gráfico */
+.page-proyect .pv-card {
+    background: #fff;
+    border: 1px solid #e6e9ee;
+    border-radius: 12px;
+    overflow: clip;
+    box-shadow: 0 10px 28px rgba(16,24,40,.06);
+}
+
+.page-proyect .pv-card-header {
+    padding: .85rem 1rem;
+    border-bottom: 1px solid #eef2f6;
+    background: linear-gradient(180deg, #fafcff 0%, #fff 100%);
+}
+
+.page-proyect .pv-card-body {
+    padding: .5rem 1rem 1rem 1rem;
+}
+
+.page-proyect .pv-card-footer {
+    border-top: 1px solid #eef2f6;
+    padding: .6rem 1rem;
+    background: #fff;
+}
+
+/* Leyenda compacta de ejemplo */
+.page-proyect .pv-legend-hint {
+    color: #475569;
+    font-size: .9rem;
+}
+
+.page-proyect .pv-dot {
+    --dot: #007853;
+    width: 10px;
+    height: 10px;
+    border-radius: 99px;
+    display: inline-block;
+    background: var(--dot);
+}
+
+/* Ajustes responsive suaves */
+@media (max-width: 575.98px) {
+    .page-proyect .pv-header .pv-toolbar {
+        width: 100%;
+        display: flex;
+        gap: .5rem;
+        justify-content: flex-start;
+        margin-top: .25rem;
+    }
+
+    .page-proyect .pv-card-body {
+        padding: .5rem .5rem 1rem .5rem;
+    }
+}
+/* separaciones y comportamiento responsive de la toolbar */
+.page-proyect .pv-toolbar {
+    gap: .5rem;
+}
+/* ~8px */
+@media (max-width: 575.98px) {
+    .page-proyect .pv-toolbar {
+        gap: .6rem;
+        width: 100%;
+    }
+
+        .page-proyect .pv-toolbar .btn {
+            flex: 1 1 auto; /* que crezcan y ocupen el ancho */
+        }
+}
+/* Botón con efecto “levantar + rebote” */
+.btn-bounce {
+    display: inline-block; /* necesario para transform */
+    transform: translateY(0);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1.2), /* curva con rebote */
+    box-shadow .25s ease, filter .2s ease;
+    will-change: transform;
+}
+
+    /* hover: sube un poco (rebota al terminar por la curva) */
+    .btn-bounce:hover,
+    .btn-bounce:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(0,0,0,.12);
+    }
+
+    /* active (click): sensación de “tap” */
+    .btn-bounce:active {
+        transform: translateY(-1px) scale(.99);
+        transition-duration: .08s;
+    }
+
+/* Opcional: más legibilidad */
+.btn-outline-secondary.btn-bounce:hover {
+    filter: brightness(1.03);
+}
+
+.btn-success.btn-bounce:hover {
+    box-shadow: 0 12px 28px rgba(0,120,83,.22);
+}
+
+/* Respeto a usuarios con reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+    .btn-bounce,
+    .btn-bounce:hover,
+    .btn-bounce:focus,
+    .btn-bounce:active {
+        transition: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+}
