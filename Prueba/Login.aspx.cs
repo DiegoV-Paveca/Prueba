@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Web.Security; // NECESARIO para la cookie de seguridad
 using System.Web.UI;
 
 namespace Prueba
@@ -9,81 +10,97 @@ namespace Prueba
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Si ya hay sesión, redirigir al inicio
+            // Si el usuario ya tiene sesión, lo mandamos directo a la zona secreta
             if (Session["UsuarioID"] != null)
             {
-                Response.Redirect("Default.aspx");
+                Response.Redirect("Misterio.aspx");
             }
         }
 
-        // ESTE ES EL MÉTODO QUE TE FALTA O TIENE EL NOMBRE INCORRECTO
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string usuario = txtUsuario.Text.Trim();
             string password = txtPassword.Text.Trim();
+            string mensajeError = "";
 
-            // Validaciones básicas
-            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
+            if (ValidarUsuarioDiagnostico(usuario, password, out mensajeError))
             {
-                lblError.Text = "Por favor ingresa usuario y contraseña.";
-                lblError.Visible = true;
-                return;
-            }
+                // --- PASO CRÍTICO QUE FALTABA ---
+                // Creamos la "Cookie de Autorización". 
+                // Esto le dice al Web.config: "Este usuario ya pasó el control, déjalo entrar".
+                FormsAuthentication.SetAuthCookie(usuario, false);
 
-            // Llamada a la función de validación
-            if (ValidarUsuario(usuario, password))
-            {
-                // Login exitoso
-                Response.Redirect("Default.aspx");
+                // Ahora sí, redirigimos a la página protegida
+                Response.Redirect("Misterio.aspx");
             }
             else
             {
-                // Login fallido
-                lblError.Text = "Usuario o contraseña incorrectos.";
+                // Mostramos el error en pantalla
+                lblError.Text = mensajeError;
                 lblError.Visible = true;
             }
         }
 
-        private bool ValidarUsuario(string user, string pass)
+        private bool ValidarUsuarioDiagnostico(string user, string pass, out string mensaje)
         {
-            bool esValido = false;
-            // Asegúrate de que "PavecaConnection" coincida con el nombre en tu Web.config
+            mensaje = "Error desconocido";
             string connectionString = ConfigurationManager.ConnectionStrings["PavecaConnection"].ConnectionString;
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                // Consulta que verifica usuario y contraseña hasheada
-                string query = @"SELECT id, usuario 
-                                 FROM dbo.login 
-                                 WHERE (usuario = @user OR email = @user) 
-                                 AND passwordHash = HASHBYTES('SHA2_256', @pass)";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                try
                 {
-                    cmd.Parameters.AddWithValue("@user", user);
-                    cmd.Parameters.AddWithValue("@pass", pass);
+                    con.Open();
 
-                    try
+                    // PASO 1: Verificar si el usuario existe (sin importar la contraseña)
+                    string queryUser = "SELECT COUNT(*) FROM dbo.login WHERE usuario = @user OR email = @user";
+                    using (SqlCommand cmd = new SqlCommand(queryUser, con))
                     {
-                        con.Open();
+                        cmd.Parameters.AddWithValue("@user", user);
+                        int count = (int)cmd.ExecuteScalar();
+
+                        if (count == 0)
+                        {
+                            mensaje = "El usuario NO existe en la base de datos.";
+                            return false;
+                        }
+                    }
+
+                    // PASO 2: Verificar la contraseña
+                    // Usamos CAST(@pass AS VARCHAR(50)) para que coincida con el formato de SQL
+                    string queryPass = @"SELECT id, usuario 
+                                         FROM dbo.login 
+                                         WHERE (usuario = @user OR email = @user) 
+                                         AND passwordHash = HASHBYTES('SHA2_256', CAST(@pass AS VARCHAR(50)))";
+
+                    using (SqlCommand cmd = new SqlCommand(queryPass, con))
+                    {
+                        cmd.Parameters.AddWithValue("@user", user);
+                        cmd.Parameters.AddWithValue("@pass", pass);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                esValido = true;
+                                // Login Exitoso: Guardamos datos en sesión
                                 Session["UsuarioID"] = reader["id"].ToString();
                                 Session["UsuarioNombre"] = reader["usuario"].ToString();
+                                return true;
+                            }
+                            else
+                            {
+                                mensaje = "El usuario existe, pero la contraseña es INCORRECTA.";
+                                return false;
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        lblError.Text = "Error de conexión: " + ex.Message;
-                        lblError.Visible = true;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    mensaje = "Error de conexión a BD: " + ex.Message;
+                    return false;
                 }
             }
-            return esValido;
         }
     }
 }
