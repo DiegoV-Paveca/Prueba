@@ -95,8 +95,7 @@
                         </li>
                     </ul>
 
-                    <p class="navbar-text">Bienvenido, <asp:LoginName runat="server" />!</p>
-                </div>
+                    <p class="navbar-text">Bienvenido, <asp:Literal ID="litUserName" runat="server"></asp:Literal>!</p>                </div>
             </div>
         </nav>
 

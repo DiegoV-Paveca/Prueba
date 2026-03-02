@@ -16,6 +16,17 @@ namespace Prueba
             MarkActive("navProyect", current.Contains("/proyect"));
             MarkActive("navAbout", current.Contains("/about"));
             MarkActive("navContact", current.Contains("/contact"));
+
+            string rawName = Context.User.Identity.Name;
+            if (rawName.Contains("\\"))
+            {
+                string cleanName = rawName.Split('\\')[1];
+
+                cleanName = cleanName.Replace(".", " ");
+                cleanName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(cleanName);
+
+                litUserName.Text = cleanName; 
+            }
         }
 
         private void MarkActive(string anchorId, bool active)
