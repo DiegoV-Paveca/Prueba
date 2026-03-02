@@ -6,6 +6,8 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 
   <main class="container py-4 page-proyect"><!-- scope CSS local -->
+  <div class="bg-white p-5 my-3 mx-auto" style="max-width:1200px;border-radius:2px;">
+
     
     <!-- Encabezado de la vista -->
     <header class="pv-header row g-3 align-items-center mb-3">
@@ -76,6 +78,7 @@
         <small class="text-muted">Fuente: Datos internos</small>
       </div>
     </section>
+      </div>
 
   </main>
 

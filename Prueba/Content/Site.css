@@ -646,3 +646,61 @@ nav.navbar {
         box-shadow: none !important;
     }
 }
+/* ==========================================================================
+   PÁGINA FUTURO (Fondo ECharts GL)
+   ========================================================================== */
+
+/* Forzar el fondo oscuro solo cuando el body tiene esta clase */
+body.page-futuro {
+    background-color: #050505 !important;
+    background-image: none !important;
+    color: #ffffff;
+}
+
+/* El div que contiene el gráfico de ECharts en el fondo */
+#futuristic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Lo envía detrás de todo */
+    pointer-events: none; /* Evita que el gráfico interfiera con los clics */
+}
+
+/* Contenedor principal para el contenido sobre el gráfico */
+.content-overlay {
+    position: relative;
+    z-index: 1; /* Lo trae al frente */
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+/* Efecto Cristal (Glassmorphism) para las tarjetas */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    height: 100%;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card h3 {
+        color: #007853; /* Verde PAVECA para resaltar los títulos */
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .glass-card p {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+    }

@@ -114,7 +114,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="future.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="imagenes\favicon.png" />
     <Content Include="imagenes\fondo.jpg" />
     <Content Include="imagenes\logopaveca.png" />
     <Content Include="imagenes\Papel-de-Venezolanos-celebra-71-anos-de-liderazgo-y-compromiso-con-la-calidad.jpg" />
@@ -205,6 +207,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="future.aspx.cs">
+      <DependentUpon>future.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="future.aspx.designer.cs">
+      <DependentUpon>future.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
