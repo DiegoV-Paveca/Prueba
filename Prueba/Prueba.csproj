@@ -121,6 +121,7 @@
     <Content Include="imagenes\logopaveca.png" />
     <Content Include="imagenes\Papel-de-Venezolanos-celebra-71-anos-de-liderazgo-y-compromiso-con-la-calidad.jpg" />
     <Content Include="imagenes\productos.PNG" />
+    <Content Include="Login.aspx" />
     <Content Include="Proyect.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -217,6 +218,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proyect.aspx.cs">

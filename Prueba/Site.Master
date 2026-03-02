@@ -95,6 +95,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="A1" runat="server" href="~/future">Futuro</a>
                         </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="A2" runat="server" href="~/Login">Login</a>
+                        </li>
                     </ul>
 
                     <p class="navbar-text">Bienvenido, <asp:Literal ID="litUserName" runat="server"></asp:Literal>!</p>                </div>
