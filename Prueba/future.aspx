@@ -2,182 +2,258 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <!-- 1. EL CONTENEDOR DEL FONDO FUTURISTA -->
-    <div id="futuristic-bg"></div>
+    <!-- Fondo (Canvas) -->
+    <div id="futuristic-bg" class="bg-holder">
+        <canvas id="net-canvas"></canvas>
+    </div>
 
-    <!-- 2. TU CONTENIDO (Flotando sobre el fondo) -->
+    <!-- Contenido principal (encima del canvas) -->
     <div class="container content-overlay">
         <h1 class="display-4 fw-bold text-white mb-3">El Futuro de PAVECA</h1>
-        <p class="lead text-white-50 mb-5">Innovación, tecnología y redes de distribución interconectadas en constante movimiento.</p>
-        
+        <p class="lead text-white-50 mb-5">
+            Innovación, tecnología y redes de distribución interconectadas en constante movimiento.
+        </p>
+
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="glass-card">
                     <h3>Red de Distribución</h3>
-                    <p>Nuestros nodos logísticos se conectan entre si para optimizar las entregas a nivel nacional, adaptándose dinámicamente a la demanda.</p>
+                    <p>
+                        Nuestros nodos logísticos se conectan entre si para optimizar las entregas a nivel nacional,
+                        adaptándose dinámicamente a la demanda.
+                    </p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="glass-card">
                     <h3>Análisis de Datos</h3>
-                    <p>Procesamos miles de variables simultáneas para garantizar la calidad en cada bobina de papel, utilizando algoritmos de vanguardia.</p>
+                    <p>
+                        Procesamos miles de variables simultáneas para garantizar la calidad en cada bobina de papel,
+                        utilizando algoritmos de vanguardia.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. LIBRERÍA NECESARIA (Solo ECharts normal) -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <!-- ====== Estilos mínimos (puedes moverlos a Site.css) ====== -->
+    <style>
+        /* El canvas cubre toda la pantalla por detrás del contenido */
+        #futuristic-bg.bg-holder {
+            position: fixed; /* o absolute si prefieres que no siga el scroll */
+            inset: 0;
+            z-index: 0;           /* detrás del contenido */
+            pointer-events: none; /* no bloquea clicks */
+            background: transparent;
+        }
 
-    <!-- 4. SCRIPT DE ANIMACIÓN CONSTANTE -->
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tarjetas con efecto vidrio (opcional) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            color: #fff;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Si el usuario pide menos animación, la desactivamos */
+        @media (prefers-reduced-motion: reduce) {
+            #futuristic-bg { display: none !important; }
+        }
+    </style>
+
+    <!-- ====== Script Canvas 2D de alto rendimiento ====== -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        (function () {
+            // Configuración general (puedes ajustar valores)
+            const BASE_NODE_COUNT = 70;     // cantidad de puntos
+            const MAX_DIST = 150;           // distancia máxima para conectar puntos
+            const SPEED = 0.60;             // velocidad base
+            const FPS = 30;                 // límite de frames por segundo
+            const COLOR_POINT = 'rgba(255,255,255,0.85)';
+            const COLOR_LINE_BASE = 'rgba(255,255,255,'; // se completa con opacidad ")"
 
-            // Aplica el fondo oscuro definido en tu CSS
-            document.body.classList.add('page-futuro');
+            // Ajustes por dispositivo
+            const isMobile = window.matchMedia('(pointer: coarse)').matches;
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            // Inicializar ECharts en el div del fondo
-            var chartDom = document.getElementById('futuristic-bg');
-            var myChart = echarts.init(chartDom);
+            // Bajamos carga en móviles
+            const NODE_COUNT = isMobile ? Math.max(30, Math.round(BASE_NODE_COUNT * 0.6)) : BASE_NODE_COUNT;
+            const EFFECT_MAX_DIST = isMobile ? Math.round(MAX_DIST * 0.8) : MAX_DIST;
+            const EFFECT_SPEED = isMobile ? SPEED * 0.7 : SPEED;
 
-            // ==========================================
-            // [MODIFICABLE] 1. CONFIGURACIÓN PRINCIPAL
-            // ==========================================
-            // Cantidad de puntos en la pantalla. (Más de 200 puede poner lenta la PC de algunos usuarios)
-            var nodeCount = 120;
+            document.addEventListener('DOMContentLoaded', init, { once: true });
 
-            // Distancia en píxeles para que dos puntos se conecten con una línea.
-            // Si lo subes a 300, habrá una telaraña gigante. Si lo bajas a 50, casi no habrá líneas.
-            var maxDistance = 250;
+            function init() {
+                // Si el usuario pidió menos animación, desactiva
+                if (prefersReduced) return;
 
-            // 2. Crear Nodos Aleatorios
-            var nodes = [];
-            for (var i = 0; i < nodeCount; i++) {
-                nodes.push({
-                    id: i.toString(),
+                document.body.classList.add('page-futuro');
 
-                    // Posición inicial aleatoria (X, Y)
-                    value: [Math.random() * window.innerWidth, Math.random() * window.innerHeight],
+                const holder = document.getElementById('futuristic-bg');
+                const canvas = document.getElementById('net-canvas');
+                if (!holder || !canvas) return;
 
-                    // [MODIFICABLE] Tamaño del punto. 
-                    // Math.random() * 3 + 5 significa: "Un tamaño aleatorio entre 5 y 8 píxeles"
-                    symbolSize: Math.random() * 3 + 5,
+                const ctx = canvas.getContext('2d', { alpha: true });
 
-                    itemStyle: {
-                        // [MODIFICABLE] Color de los puntos. 
-                        // Formato rgba(Rojo, Verde, Azul, Transparencia). 
-                        // Cámbialo a 'rgba(0, 120, 83, 0.8)' para que sean Verde PAVECA.
-                        color: 'rgba(0, 120, 83, 0.8)'
-                    },
+                // Limita DPR para no disparar píxeles en 4K; 1.5 suele dar buen balance
+                let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+                let w = 0, h = 0;
 
-                    // [MODIFICABLE] Velocidad de movimiento.
-                    // El 1.5 al final es el multiplicador. Si pones 0.5 irán muy lento. Si pones 5.0 irán rapidísimo.
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: (Math.random() - 0.5) * 1.5
-                });
-            }
-
-            // 3. Configuración inicial de ECharts
-            var option = {
-                backgroundColor: 'transparent',
-                // Ejes invisibles (Requeridos por ECharts para saber el tamaño del lienzo)
-                xAxis: { type: 'value', show: false, min: 0, max: window.innerWidth },
-                yAxis: { type: 'value', show: false, min: 0, max: window.innerHeight },
-                series: [{
-                    type: 'graph',
-                    layout: 'none',
-                    coordinateSystem: 'cartesian2d',
-                    symbol: 'circle',
-                    data: nodes,
-                    edges: [],
-                    lineStyle: {
-                        // [MODIFICABLE] Color y grosor de las líneas
-                        color: 'rgba(255, 255, 255, 0.2)', // Blanco muy transparente
-                        width: 1, // Grosor de la línea en píxeles
-                        curveness: 0 // Si pones 0.2, las líneas serán curvas en lugar de rectas
-                    },
-                    animation: false // Apagado porque nosotros animaremos manualmente
-                }]
-            };
-
-            myChart.setOption(option);
-
-            // ==========================================
-            // 4. EL MOTOR DE MOVIMIENTO CONSTANTE
-            // ==========================================
-            // setInterval ejecuta esta función repetidamente
-            // [MODIFICABLE] El número 40 al final son los milisegundos. 
-            // 40ms = 25 FPS. Si pones 16, irá a 60 FPS (más fluido pero consume más procesador).
-            setInterval(function () {
-                var edges = [];
-
-                // Recorremos todos los puntos para moverlos
-                for (var i = 0; i < nodes.length; i++) {
-                    var node = nodes[i];
-
-                    // Sumamos la velocidad a la posición actual
-                    node.value[0] += node.vx; // Eje X
-                    node.value[1] += node.vy; // Eje Y
-
-                    // Lógica de rebote: Si toca el borde izquierdo (<=0) o derecho (>=ancho), invierte la velocidad X
-                    if (node.value[0] <= 0 || node.value[0] >= window.innerWidth) node.vx *= -1;
-                    // Lógica de rebote: Si toca arriba o abajo, invierte la velocidad Y
-                    if (node.value[1] <= 0 || node.value[1] >= window.innerHeight) node.vy *= -1;
-
-                    // Calcular distancias con los demás puntos para saber si dibujamos línea
-                    for (var j = i + 1; j < nodes.length; j++) {
-                        var nodeB = nodes[j];
-                        var dx = node.value[0] - nodeB.value[0];
-                        var dy = node.value[1] - nodeB.value[1];
-
-                        // Teorema de Pitágoras para calcular la distancia real entre los dos puntos
-                        var distance = Math.sqrt(dx * dx + dy * dy);
-
-                        // Si la distancia es menor al límite que configuramos arriba (150px)...
-                        if (distance < maxDistance) {
-
-                            // Calculamos la transparencia. 
-                            // Si están muy cerca (distancia casi 0), opacity será casi 1 (muy visible).
-                            // Si están casi a 150px, opacity será casi 0 (casi invisible).
-                            var opacity = 1 - (distance / maxDistance);
-
-                            // Creamos la línea
-                            edges.push({
-                                source: node.id,
-                                target: nodeB.id,
-                                lineStyle: {
-                                    // [MODIFICABLE] El 0.4 es la opacidad máxima. 
-                                    // Si quieres que las líneas brillen mucho cuando se cruzan, ponlo en 1.0
-                                    opacity: opacity * 0.5
-                                }
-                            });
-                        }
-                    }
+                function resize() {
+                    w = window.innerWidth;
+                    h = window.innerHeight;
+                    canvas.style.width = w + 'px';
+                    canvas.style.height = h + 'px';
+                    canvas.width = Math.floor(w * dpr);
+                    canvas.height = Math.floor(h * dpr);
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 }
 
-                // Le enviamos la nueva información a ECharts para que redibuje la pantalla
-                myChart.setOption({
-                    series: [{
-                        data: nodes,
-                        edges: edges
-                    }]
+                // Nodos
+                const POINT_MIN = 2.2, POINT_MAX = 4.5;
+                const nodes = new Array(NODE_COUNT).fill(0).map((_, i) => ({
+                    id: i,
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: POINT_MIN + Math.random() * (POINT_MAX - POINT_MIN),
+                    vx: (Math.random() - 0.5) * EFFECT_SPEED * 2,
+                    vy: (Math.random() - 0.5) * EFFECT_SPEED * 2
+                }));
+
+                // Rejilla espacial
+                const CELL = EFFECT_MAX_DIST; // tamaño de celda ≈ distancia de conexión
+                function buildGrid() {
+                    const grid = new Map(); // key: "cx,cy" -> array de índices
+                    for (let i = 0; i < nodes.length; i++) {
+                        const n = nodes[i];
+                        const cx = (n.x / CELL) | 0;
+                        const cy = (n.y / CELL) | 0;
+                        const key = cx + ',' + cy;
+                        let bucket = grid.get(key);
+                        if (!bucket) { bucket = []; grid.set(key, bucket); }
+                        bucket.push(i);
+                    }
+                    return grid;
+                }
+
+                // Animación con requestAnimationFrame + límite de FPS
+                let running = true, animId = null, last = 0, interval = 1000 / FPS;
+
+                function step(ts) {
+                    if (!running) { animId = requestAnimationFrame(step); return; }
+                    if (ts - last < interval) { animId = requestAnimationFrame(step); return; }
+                    last = ts;
+
+                    // Actualización de posiciones
+                    for (let i = 0; i < nodes.length; i++) {
+                        const n = nodes[i];
+                        n.x += n.vx; n.y += n.vy;
+                        if (n.x < 0 || n.x > w) n.vx *= -1;
+                        if (n.y < 0 || n.y > h) n.vy *= -1;
+                    }
+
+                    // Construye rejilla y pinta
+                    const grid = buildGrid();
+                    const max2 = EFFECT_MAX_DIST * EFFECT_MAX_DIST;
+
+                    ctx.clearRect(0, 0, w, h);
+
+                    // Líneas primero (puntos encima)
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < nodes.length; i++) {
+                        const a = nodes[i];
+                        const cx = (a.x / CELL) | 0;
+                        const cy = (a.y / CELL) | 0;
+
+                        // Celda propia + 8 vecinas
+                        for (let ox = -1; ox <= 1; ox++) {
+                            for (let oy = -1; oy <= 1; oy++) {
+                                const key = (cx + ox) + ',' + (cy + oy);
+                                const bucket = grid.get(key);
+                                if (!bucket) continue;
+
+                                for (let k = 0; k < bucket.length; k++) {
+                                    const j = bucket[k];
+                                    if (j <= i) continue; // evita duplicados
+                                    const b = nodes[j];
+
+                                    const dx = a.x - b.x, dy = a.y - b.y;
+                                    const d2 = dx * dx + dy * dy;
+                                    if (d2 < max2) {
+                                        const d = Math.sqrt(d2);
+                                        const op = (1 - d / EFFECT_MAX_DIST) * 0.6; // opacidad
+                                        ctx.strokeStyle = COLOR_LINE_BASE + op + ')';
+                                        ctx.beginPath();
+                                        ctx.moveTo(a.x, a.y);
+                                        ctx.lineTo(b.x, b.y);
+                                        ctx.stroke();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Puntos
+                    ctx.fillStyle = COLOR_POINT;
+                    for (let i = 0; i < nodes.length; i++) {
+                        const n = nodes[i];
+                        ctx.beginPath();
+                        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    animId = requestAnimationFrame(step);
+                }
+
+                // Resize (con debounce)
+                let rzT;
+                function onResize() {
+                    clearTimeout(rzT);
+                    rzT = setTimeout(() => {
+                        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+                        resize();
+                    }, 120);
+                }
+
+                // Pausa por visibilidad de pestaña
+                function onVisibility() {
+                    running = !document.hidden;
+                }
+
+                // Pausa si el canvas no está en viewport
+                let io = null;
+                if ('IntersectionObserver' in window) {
+                    io = new IntersectionObserver(([entry]) => {
+                        running = entry.isIntersecting && !document.hidden;
+                    });
+                    io.observe(holder);
+                }
+
+                // Inicializa
+                resize();
+                animId = requestAnimationFrame(step);
+
+                window.addEventListener('resize', onResize);
+                document.addEventListener('visibilitychange', onVisibility);
+
+                // Limpieza
+                window.addEventListener('beforeunload', () => {
+                    running = false;
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', onResize);
+                    document.removeEventListener('visibilitychange', onVisibility);
+                    if (io) io.disconnect();
+                    document.body.classList.remove('page-futuro');
                 });
-
-            }, 40); // <-- [MODIFICABLE] Velocidad de refresco (Milisegundos)
-
-            // Adaptar el gráfico si el usuario cambia el tamaño de la ventana del navegador
-            window.addEventListener('resize', function () {
-                myChart.resize();
-                myChart.setOption({
-                    xAxis: { max: window.innerWidth },
-                    yAxis: { max: window.innerHeight }
-                });
-            });
-
-            // Limpiar la clase del body si el usuario navega a otra página
-            window.addEventListener('beforeunload', function () {
-                document.body.classList.remove('page-futuro');
-            });
-        });
+            }
+        })();
     </script>
+
 </asp:Content>

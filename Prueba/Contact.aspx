@@ -25,7 +25,7 @@
                     <p class="text-muted">Consultas técnicas, problemas de acceso y más.</p>
 
                     <a href="mailto:Support@example.com" class="fw-bold" style="color:#00509e;">
-                        Support@example.com
+                        Support@paveca.com.ve
                     </a>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     <p class="text-muted">Alianzas, campañas y solicitudes corporativas.</p>
 
                     <a href="mailto:Marketing@example.com" class="fw-bold" style="color:#00509e;">
-                        Marketing@example.com
+                        Marketing@paveca.com.ve
                     </a>
                 </div>
             </div>

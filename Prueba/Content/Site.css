@@ -60,6 +60,8 @@ nav.navbar {
     nav.navbar.navbar-paveca {
         background-color: var(--pv-primary) !important;
         border-bottom: 1px solid var(--pv-primary-700);
+        position: relative; /* asegura contexto de apilamiento */
+        z-index: 1050; /* > 1 y mayor a cualquier fondo */
     }
 
         nav.navbar.navbar-paveca .navbar-brand,
