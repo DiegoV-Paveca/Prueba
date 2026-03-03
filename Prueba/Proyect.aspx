@@ -270,7 +270,7 @@
                   },
                   yAxis: {
                       type: 'value',
-                      name: 'Toneladas',
+                      name: '',
                       nameTextStyle: { color: '#6b7280', padding: [0, 0, 0, 20] },
                       splitLine: { lineStyle: { type: 'dashed', color: '#e6e9ee' } },
                       axisLabel: { color: '#6b7280' },

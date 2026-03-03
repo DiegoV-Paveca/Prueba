@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="<%= ResolveUrl("~/imagenes/favicon.png?v=1") %>" />
     <!-- Bootstrap primero -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" runat="server" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Tu CSS personalizado DESPUÉS de Bootstrap (cache-busting con ?v=) -->
     <link href="~/Content/Site.css?v=1.0.5" rel="stylesheet" runat="server" />
