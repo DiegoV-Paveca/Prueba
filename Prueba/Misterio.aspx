@@ -6,7 +6,6 @@
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Portal PAVECA</h5>
                 <!-- Botón necesario para el evento btnLogout_Click -->
-                <asp:Button ID="btnLogout" runat="server" Text="Cerrar Sesión" CssClass="btn btn-sm btn-danger" OnClick="btnLogout_Click" />
             </div>
             <div class="card-body text-center p-5">
                 <!-- Etiqueta necesaria para lblUsuario.Text -->

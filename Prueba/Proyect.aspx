@@ -17,7 +17,12 @@
       <header class="pv-header row g-3 align-items-end mb-4">
         <div class="col-lg-5">
           <h1 class="pv-title m-0">Ventas 2024</h1>
-          <p class="pv-subtitle m-0 mt-1">Seguimiento mensual • Toneladas</p>
+          <p class="pv-subtitle m-0 mt-1">
+              <span id="liveIndicator" class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">
+                  <i class="bi bi-circle-fill small me-1" style="font-size: 0.6em;"></i> En vivo
+              </span>
+              &nbsp;• Seguimiento mensual (Toneladas)
+          </p>
         </div>
         <div class="col-lg-7 text-lg-end">
           <div class="d-flex justify-content-lg-end">
@@ -32,7 +37,7 @@
               <i class="bi bi-file-earmark-spreadsheet"></i> Excel
             </button>
             <button type="button" class="btn btn-pv-primary btn-bounce shadow-sm" id="btnRefresh">
-              <i class="bi bi-arrow-repeat"></i> Actualizar
+              <i class="bi bi-arrow-repeat"></i> Actualizar Ahora
             </button>
           </div>
         </div>
@@ -87,7 +92,7 @@
               <div class="icon-box">
                   <i class="bi bi-bar-chart-fill"></i>
               </div>
-              <strong style="color: var(--text-main);">Producción PAVECA (Enero–Diciembre)</strong>
+              <strong style="color: var(--text-main);">Producción PAVECA (Base de Datos)</strong>
             </div>
             <div class="d-none d-md-flex align-items-center gap-2 pv-legend-hint">
               <span class="pv-dot" style="--dot:#007853"></span> Venezuela
@@ -116,12 +121,9 @@
         height: 100vh;
         z-index: -1;
         pointer-events: none;
-        /* Dibuja puntos usando CSS puro (Verde PAVECA muy transparente) */
         background-image: radial-gradient(rgba(0, 120, 83, 0.08) 1px, transparent 1px);
-        background-size: 24px 24px; /* Separación entre los puntos */
+        background-size: 24px 24px; 
     }
-
-    /* Adaptación automática del patrón al Modo Oscuro */
     [data-theme="dark"] .proyect-bg-pattern {
         background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
     }
@@ -130,10 +132,8 @@
        ESTILOS DE LA PÁGINA
        ========================================================================== */
     .pv-shell { max-width: 1100px; } 
-    
-    /* Tipografía */
     .pv-title { font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
-    .pv-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+    .pv-subtitle { color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; }
 
     /* Tarjetas KPI */
     .pv-kpi { 
@@ -143,9 +143,8 @@
         padding: 1.25rem;
         display: flex;
         flex-direction: column;
-        /* Sombra un poco más pronunciada para que resalte sobre el patrón de puntos */
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .pv-kpi:hover {
         transform: translateY(-3px);
@@ -160,7 +159,7 @@
         border: 1px solid var(--border-color);
         border-radius: 16px;
         overflow: hidden; 
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .pv-card-header { 
@@ -170,7 +169,6 @@
     }
     .pv-card-body { padding: 1rem 1.5rem 1.5rem 1.5rem; }
     
-    /* Icono decorativo en el header del gráfico */
     .icon-box {
         background: rgba(0, 120, 83, 0.1);
         color: #007853;
@@ -182,7 +180,7 @@
     .pv-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dot,#007853); display: inline-block; }
     .pv-chart { width: 100%; height: 400px; } 
 
-    /* Botones de Exportación Claros y Coloridos */
+    /* Botones */
     .btn-export {
         background: var(--bg-surface);
         color: var(--text-main);
@@ -190,24 +188,19 @@
         font-weight: 600;
         font-size: 0.85rem;
         padding: 0.5rem 1.2rem;
-        border-radius: 50rem; /* Forma de píldora */
+        border-radius: 50rem;
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
         transition: all 0.3s ease;
     }
-
-    /* Colores de los iconos */
-    .btn-export-png i:first-child { color: #0d6efd; } /* Azul */
-    .btn-export-pdf i:first-child { color: #dc3545; } /* Rojo */
-    .btn-export-excel i:first-child { color: #198754; } /* Verde */
-
-    /* Efectos Hover interactivos */
+    .btn-export-png i:first-child { color: #0d6efd; }
+    .btn-export-pdf i:first-child { color: #dc3545; }
+    .btn-export-excel i:first-child { color: #198754; }
     .btn-export-png:hover { border-color: #0d6efd; background: rgba(13, 110, 253, 0.1); color: #0d6efd; }
     .btn-export-pdf:hover { border-color: #dc3545; background: rgba(220, 53, 69, 0.1); color: #dc3545; }
     .btn-export-excel:hover { border-color: #198754; background: rgba(25, 135, 84, 0.1); color: #198754; }
 
-    /* Botón Principal de Actualizar */
     .btn-pv-primary {
         background: #007853;
         color: white;
@@ -221,11 +214,15 @@
         gap: 0.4rem;
     }
     .btn-pv-primary:hover { background: #006447; color: white; }
-
-    /* Efecto de rebote al hacer clic */
-    .btn-bounce { transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1.2), box-shadow 0.2s; }
     .btn-bounce:active { transform: translateY(2px) scale(0.98); }
-    .btn[disabled] { pointer-events: none; opacity: 0.6; }
+    
+    /* Animación de pulso para el indicador "En vivo" */
+    @keyframes pulse-green {
+        0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.4); }
+        70% { box-shadow: 0 0 0 6px rgba(25, 135, 84, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+    }
+    #liveIndicator i { animation: pulse-green 2s infinite; border-radius: 50%; }
   </style>
 
   <!-- JS PRINCIPAL -->
@@ -237,7 +234,8 @@
               meses: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
               datos: [],
               stats: { sum: 0, avg: 0, max: 0, min: 0 },
-              chart: null
+              chart: null,
+              intervalId: null
           };
 
           document.addEventListener('DOMContentLoaded', () => {
@@ -296,23 +294,30 @@
                   }]
               }, { notMerge: true, lazyUpdate: true });
 
-              refreshAll();
+              // 1. Carga inicial
+              refreshAll(false);
+
+              // 2. ACTIVAR ACTUALIZACIÓN AUTOMÁTICA (Cada 5 segundos)
+              state.intervalId = setInterval(() => {
+                  refreshAll(true); // true = modo silencioso (sin spinner)
+              }, 5000);
+
               bindToolbar();
+
+              // Limpieza al salir
+              window.addEventListener('beforeunload', () => {
+                  if (state.intervalId) clearInterval(state.intervalId);
+              });
 
               if ('ResizeObserver' in window) {
                   const ro = new ResizeObserver(() => state.chart && state.chart.resize());
                   ro.observe(el);
-                  window.addEventListener('beforeunload', () => ro.disconnect(), { once: true });
               } else {
-                  const onRz = () => state.chart && state.chart.resize();
-                  window.addEventListener('resize', onRz);
-                  window.addEventListener('beforeunload', () => window.removeEventListener('resize', onRz), { once: true });
+                  window.addEventListener('resize', () => state.chart && state.chart.resize());
               }
 
-              // Escuchar el cambio de tema para actualizar ECharts
               window.addEventListener('themeChanged', function (e) {
                   var newTheme = e.detail;
-
                   var textColor = newTheme === 'dark' ? '#adb5bd' : '#6b7280';
                   var splitLineColor = newTheme === 'dark' ? '#333333' : '#e6e9ee';
                   var tooltipBg = newTheme === 'dark' ? 'rgba(30, 30, 30, 0.9)' : 'rgba(255, 255, 255, 0.9)';
@@ -326,38 +331,70 @@
               });
           }
 
-          function refreshAll() {
-              // Mostrar indicador de carga
-              state.chart.showLoading({
-                  text: 'Calculando...',
-                  color: '#007853',
-                  textColor: '#007853',
-                  maskColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                  zlevel: 0
-              });
+          // =========================================================
+          // FUNCIÓN: OBTENER DATOS DE LA BD
+          // =========================================================
+          function refreshAll(silent) {
+              // Solo mostramos el spinner si NO es una actualización silenciosa (automática)
+              if (!silent) {
+                  state.chart.showLoading({
+                      text: 'Cargando BD...',
+                      color: '#007853',
+                      textColor: '#007853',
+                      maskColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                      zlevel: 0
+                  });
+              }
 
-              // Simular carga de datos (800ms)
-              setTimeout(() => {
-                  state.datos = Array.from({ length: 12 }, () => Math.floor(Math.random() * 51) + 48);
+              // Llamada AJAX al Backend (C#)
+              fetch('Proyect.aspx/ObtenerDatosProduccion', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: '{}',
+                  credentials: 'include' 
+              })
+                  .then(response => response.json())
+                  .then(data => {
+                      const datosBD = data.d; // ASP.NET devuelve los datos en ".d"
 
-                  state.chart.setOption({ series: [{ data: state.datos }] });
+                      if (!datosBD || datosBD.length === 0) {
+                          console.warn("BD vacía o error.");
+                          state.datos = Array(12).fill(0);
+                      } else {
+                          // Comprobación simple: Si los datos son idénticos, no redibujamos (ahorra recursos)
+                          if (JSON.stringify(state.datos) === JSON.stringify(datosBD)) {
+                              if (!silent) state.chart.hideLoading();
+                              return;
+                          }
+                          state.datos = datosBD;
+                      }
 
-                  const arr = state.datos;
-                  const sum = arr.reduce((a, b) => a + b, 0);
-                  const avg = arr.length ? sum / arr.length : 0;
-                  const max = arr.length ? Math.max.apply(null, arr) : 0;
-                  const min = arr.length ? Math.min.apply(null, arr) : 0;
-                  state.stats = { sum, avg, max, min };
+                      state.chart.setOption({ series: [{ data: state.datos }] });
+                      updateKPIs(state.datos);
 
-                  const nf0 = new Intl.NumberFormat('es-VE', { maximumFractionDigits: 0 });
-                  setText('kpiTotal', nf0.format(sum));
-                  setText('kpiProm', nf0.format(avg));
-                  setText('kpiMax', nf0.format(max));
-                  setText('kpiMin', nf0.format(min));
+                      if (!silent) state.chart.hideLoading();
+                  })
+                  .catch(error => {
+                      console.error('Error BD:', error);
+                      if (!silent) {
+                          state.chart.hideLoading();
+                          // Opcional: alert('Error de conexión');
+                      }
+                  });
+          }
 
-                  // Ocultar indicador de carga
-                  state.chart.hideLoading();
-              }, 800);
+          function updateKPIs(arr) {
+              const sum = arr.reduce((a, b) => a + b, 0);
+              const avg = arr.length ? sum / arr.length : 0;
+              const max = arr.length ? Math.max.apply(null, arr) : 0;
+              const min = arr.length ? Math.min.apply(null, arr) : 0;
+              state.stats = { sum, avg, max, min };
+
+              const nf0 = new Intl.NumberFormat('es-VE', { maximumFractionDigits: 0 });
+              setText('kpiTotal', nf0.format(sum));
+              setText('kpiProm', nf0.format(avg));
+              setText('kpiMax', nf0.format(max));
+              setText('kpiMin', nf0.format(min));
           }
 
           function setText(id, v) { const n = document.getElementById(id); if (n) n.textContent = v; }
@@ -368,7 +405,10 @@
               const btnPdf = document.getElementById('btnPdf');
               const btnExcel = document.getElementById('btnExcel');
 
-              btnRefresh && btnRefresh.addEventListener('click', () => { btnRefresh.blur(); refreshAll(); });
+              btnRefresh && btnRefresh.addEventListener('click', () => {
+                  btnRefresh.blur();
+                  refreshAll(false); // Forzamos spinner al hacer clic manual
+              });
 
               btnDownload && btnDownload.addEventListener('click', () => runWithGuard(btnDownload, () => {
                   const dataURL = state.chart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#ffffff' });

@@ -26,14 +26,5 @@ namespace Prueba
                 }
             }
         }
-
-        protected void btnLogout_Click(object sender, EventArgs e)
-        {
-            // 3. CERRAR SESIÓN
-            FormsAuthentication.SignOut();
-            Session.Abandon();
-
-            Response.Redirect("Login.aspx");
-        }
     }
 }
