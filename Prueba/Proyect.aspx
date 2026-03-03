@@ -103,9 +103,8 @@
         <div class="pv-card-body">
           <div id="chartProduccion" class="pv-chart" role="img" aria-label="Gráfico de líneas de producción mensual"></div>
         </div>
-      </section>
-
-    </div>
+      </section> 
+    </div>       
   </main>
 
   <!-- ESTILOS CSS -->
@@ -448,4 +447,5 @@
           }
       })();
   </script>
+
 </asp:Content>
