@@ -20,11 +20,6 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-
-    <%-- ⚠️ Recomendación: comenta el bundle si usas los <link> manuales de arriba
-        para evitar doble carga/orden impredecible de estilos. --%>
-    <%-- <webopt:BundleReference runat="server" path="~/Content/css" /> --%>
-
 </head>
 <body>
     <form runat="server">
@@ -42,67 +37,51 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%-- Site Scripts adicionales si los hay --%>
             </Scripts>
         </asp:ScriptManager>
 
-        <!-- NAVBAR -->
-        <!-- Agrega 'fixed-top' a la clase si quieres que quede fija -->
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-paveca">
-            <div class="container">
-                <!-- Marca (texto o logo) -->
-                <a class="navbar-brand p-0 me-2" runat="server" href="~/">    
-                <span class="brand-badge">
-                <img
-                    src="<%: ResolveUrl("~/imagenes/logopaveca.png") %>"
-                    alt="PAVECA"
-                    class="navbar-logo" />
-                    </span>
-                </a>
-                <%-- Si usas logo: 
-                <a class="navbar-brand d-flex align-items-center gap-2" runat="server" href="~/">
-                    <img src="~/Content/img/logo-paveca.svg" alt="PAVECA" height="24" runat="server" />
-                    <span>Paveca Copy</span>
-                </a> --%>
+        <!-- ================================================================== -->
+        <!-- NAVBAR ENVUELTO EN PLACEHOLDER PARA OCULTARLO EN LOGIN -->
+        <!-- ================================================================== -->
+        <asp:PlaceHolder ID="phNavbar" runat="server">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-paveca">
+                <div class="container">
+                    <!-- Marca (texto o logo) -->
+                    <a class="navbar-brand p-0 me-2" runat="server" href="~/">    
+                        <span class="brand-badge">
+                            <img src="<%: ResolveUrl("~/imagenes/logopaveca.png") %>" alt="PAVECA" class="navbar-logo" />
+                        </span>
+                    </a>
 
-                <!-- Botón hamburguesa -->
-                <button type="button"
-                        class="navbar-toggler"
-                        data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        title="Alternar navegación"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!-- Botón hamburguesa -->
+                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <!-- Menú -->
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" id="navHome" runat="server" href="~/">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="navProyect" runat="server" href="~/Proyect">Proyección</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="navAbout" runat="server" href="~/About">Acerca de</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="navContact" runat="server" href="~/Contact">Contacto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="A1" runat="server" href="~/future">Futuro</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="A2" runat="server" href="~/Login">Login</a>
-                        </li>
-                    </ul>
+                    <!-- Menú -->
+                    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item"><a class="nav-link" id="navHome" runat="server" href="~/">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" id="navProyect" runat="server" href="~/Proyect">Ventas</a></li>
+                            <li class="nav-item"><a class="nav-link" id="navAbout" runat="server" href="~/About">Acerca de</a></li>
+                            <li class="nav-item"><a class="nav-link" id="navContact" runat="server" href="~/Contact">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" id="A1" runat="server" href="~/future">Futuro</a></li>
+                        </ul>
 
-                    <p class="navbar-text">Bienvenido, <asp:Literal ID="litUserName" runat="server"></asp:Literal>!</p>                </div>
-            </div>
-        </nav>
+                        <!-- Panel de Usuario (Botón Salir) -->
+                        <asp:PlaceHolder ID="phUsuarioInfo" runat="server" Visible="false">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="navbar-text me-2 text-light">
+                                    Bienvenido, <asp:Literal ID="litUserName" runat="server"></asp:Literal>
+                                </span>
+                                <asp:Button ID="btnLogout" runat="server" Text="Salir" CssClass="btn btn-sm btn-danger" OnClick="btnLogout_Click" CausesValidation="false" />
+                            </div>
+                        </asp:PlaceHolder>
+                    </div>
+                </div>
+            </nav>
+        </asp:PlaceHolder>
+        <!-- FIN DEL NAVBAR -->
 
         <!-- CONTENIDO -->
         <div class="container body-content">
@@ -114,7 +93,7 @@
         </div>
     </form>
 
-    <!-- Bootstrap JS (desde bundles del template) -->
+    <!-- Bootstrap JS -->
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>

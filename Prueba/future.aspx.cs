@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Prueba
 {
-    public partial class future : System.Web.UI.Page
+    public partial class future : SeguridadPaginas
     {
         protected void Page_Load(object sender, EventArgs e)
         {

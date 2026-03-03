@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Web.Security; // NECESARIO para la cookie de seguridad
+using System.Web.Security;
 using System.Web.UI;
 
 namespace Prueba
@@ -10,11 +10,28 @@ namespace Prueba
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Si el usuario ya tiene sesión, lo mandamos directo a la zona secreta
-            if (Session["UsuarioID"] != null)
+            // =========================================================================
+            // SOLUCIÓN AL BUCLE INFINITO
+            // =========================================================================
+            // Verificamos DOS cosas antes de redirigir:
+            // 1. Session["UsuarioID"] != null  -> ¿Tenemos datos del usuario?
+            // 2. Request.IsAuthenticated       -> ¿Tenemos la COOKIE de pase?
+
+            if (Session["UsuarioID"] != null && Request.IsAuthenticated)
             {
+                // Todo correcto, pase usted.
                 Response.Redirect("Misterio.aspx");
             }
+            else if (Session["UsuarioID"] != null && !Request.IsAuthenticated)
+            {
+                // CASO ZOMBIE: Tienes sesión en memoria, pero NO tienes la cookie válida.
+                // El Web.config no te dejará pasar, así que borramos esa sesión corrupta
+                // para que puedas loguearte de nuevo limpiamente.
+                Session.Abandon();
+                Session.Clear();
+                System.Web.Security.FormsAuthentication.SignOut();
+            }
+            // Si no hay sesión, simplemente carga la página de Login normal.
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -25,17 +42,14 @@ namespace Prueba
 
             if (ValidarUsuarioDiagnostico(usuario, password, out mensajeError))
             {
-                // --- PASO CRÍTICO QUE FALTABA ---
-                // Creamos la "Cookie de Autorización". 
-                // Esto le dice al Web.config: "Este usuario ya pasó el control, déjalo entrar".
+                // 1. Crear la cookie de autenticación (CRUCIAL)
                 FormsAuthentication.SetAuthCookie(usuario, false);
 
-                // Ahora sí, redirigimos a la página protegida
+                // 2. Redirigir a la zona segura
                 Response.Redirect("Misterio.aspx");
             }
             else
             {
-                // Mostramos el error en pantalla
                 lblError.Text = mensajeError;
                 lblError.Visible = true;
             }
@@ -52,7 +66,7 @@ namespace Prueba
                 {
                     con.Open();
 
-                    // PASO 1: Verificar si el usuario existe (sin importar la contraseña)
+                    // PASO 1: Verificar existencia
                     string queryUser = "SELECT COUNT(*) FROM dbo.login WHERE usuario = @user OR email = @user";
                     using (SqlCommand cmd = new SqlCommand(queryUser, con))
                     {
@@ -66,8 +80,7 @@ namespace Prueba
                         }
                     }
 
-                    // PASO 2: Verificar la contraseña
-                    // Usamos CAST(@pass AS VARCHAR(50)) para que coincida con el formato de SQL
+                    // PASO 2: Verificar contraseña
                     string queryPass = @"SELECT id, usuario 
                                          FROM dbo.login 
                                          WHERE (usuario = @user OR email = @user) 
@@ -82,7 +95,6 @@ namespace Prueba
                         {
                             if (reader.Read())
                             {
-                                // Login Exitoso: Guardamos datos en sesión
                                 Session["UsuarioID"] = reader["id"].ToString();
                                 Session["UsuarioNombre"] = reader["usuario"].ToString();
                                 return true;

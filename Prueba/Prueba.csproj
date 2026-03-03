@@ -242,6 +242,9 @@
     <Compile Include="Proyect.aspx.designer.cs">
       <DependentUpon>Proyect.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SeguridadPaginas.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

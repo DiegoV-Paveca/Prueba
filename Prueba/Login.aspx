@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Acceso PAVECA" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Prueba.Login" %>
+﻿<%@ Page Title="Acceso " Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Prueba.Login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -21,7 +21,7 @@
 
             <!-- Campo Usuario -->
             <div class="form-group mb-4">
-                <label class="text-white small text-uppercase mb-2" style="letter-spacing: 1px; opacity:0.9;">Usuario / ID</label>
+                <label class="text-white small text-uppercase mb-2" style="letter-spacing: 1px; opacity:0.9;">Usuario</label>
                 <div class="input-group">
                     <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control futuristic-input" placeholder="Ingrese su usuario"></asp:TextBox>
                 </div>

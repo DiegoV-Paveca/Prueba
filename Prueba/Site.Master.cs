@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.Globalization; // Necesario para ToTitleCase
 
 namespace Prueba
 {
@@ -9,28 +10,15 @@ namespace Prueba
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // =========================================================================
-            // 1. CANDADO DE SEGURIDAD GLOBAL
-            // =========================================================================
-            // Verificamos si el usuario NO está autenticado.
-            if (!Context.User.Identity.IsAuthenticated)
+            // Evitamos ejecutar lógica pesada en cada postback (clics de botones, etc.)
+            if (IsPostBack) return;
+            else
             {
-                // Obtenemos la URL actual en minúsculas
-                string path = Request.Url.AbsolutePath.ToLower();
-
-                // Si NO estamos en la página de Login, expulsamos al usuario.
-                // Esto protege Default, About, Contact y cualquier otra página.
-                if (!path.Contains("login.aspx"))
-                {
-                    Response.Redirect("~/Login.aspx");
-                    return; // Detenemos la ejecución para que no cargue nada más
-                }
+                if (phNavbar != null) phNavbar.Visible = true;
             }
 
-            if (IsPostBack) return;
-
             // =========================================================================
-            // 2. LÓGICA DEL MENÚ (MarkActive)
+            // 1. LÓGICA DEL MENÚ (Marcar opción activa)
             // =========================================================================
             var current = (Request.AppRelativeCurrentExecutionFilePath ?? "").ToLowerInvariant();
 
@@ -38,32 +26,59 @@ namespace Prueba
             MarkActive("navProyect", current.Contains("/proyect"));
             MarkActive("navAbout", current.Contains("/about"));
             MarkActive("navContact", current.Contains("/contact"));
+            MarkActive("A2", current.Contains("/login"));
+            MarkActive("A1", current.Contains("/future"));
 
             // =========================================================================
-            // 3. MOSTRAR NOMBRE DE USUARIO
+            // 2. LÓGICA DE USUARIO (SEGURA)
             // =========================================================================
-            string rawName = Context.User.Identity.Name;
+            // Verificamos si realmente hay una sesión válida y el usuario está autenticado.
+            // Esto evita que el código intente mostrar datos cuando estás en el Login.
+            bool usuarioAutenticado = Request.IsAuthenticated && Session["UsuarioID"] != null;
 
-            if (!string.IsNullOrEmpty(rawName))
+            if (usuarioAutenticado)
             {
-                string cleanName = rawName;
-
-                // Si el nombre viene con dominio (ej: DOMINIO\Usuario), lo limpiamos
-                if (cleanName.Contains("\\"))
+                // ¡HAY USUARIO! -> Mostramos el panel (botón salir + nombre)
+                if (phUsuarioInfo != null)
                 {
-                    cleanName = cleanName.Split('\\')[1];
+                    phUsuarioInfo.Visible = true;
                 }
 
-                // Reemplazamos puntos por espacios (ej: diego.valencic -> diego valencic)
-                cleanName = cleanName.Replace(".", " ");
-
-                // Convertimos a Título (ej: Diego Valencic)
-                cleanName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleanName);
-
-                // Asignamos el nombre al control en la Master Page
-                if (litUserName != null)
+                // Obtenemos el nombre (prioridad: Cookie -> Sesión)
+                string rawName = Context.User.Identity.Name;
+                if (string.IsNullOrEmpty(rawName) && Session["UsuarioNombre"] != null)
                 {
-                    litUserName.Text = cleanName;
+                    rawName = Session["UsuarioNombre"].ToString();
+                }
+
+                // Limpiamos y mostramos el nombre
+                if (!string.IsNullOrEmpty(rawName))
+                {
+                    string cleanName = rawName;
+
+                    // Si viene con dominio (DOMINIO\Usuario), nos quedamos solo con el usuario
+                    if (cleanName.Contains("\\"))
+                    {
+                        cleanName = cleanName.Split('\\')[1];
+                    }
+
+                    // Formato bonito (Título)
+                    cleanName = cleanName.Replace(".", " ");
+                    cleanName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleanName);
+
+                    if (litUserName != null)
+                    {
+                        litUserName.Text = cleanName;
+                    }
+                }
+            }
+            else
+            {
+                // NO HAY USUARIO (Login o Anónimo) -> Ocultamos todo el panel
+                // Esto es vital para evitar errores o bucles en la página de Login.
+                if (phUsuarioInfo != null)
+                {
+                    phUsuarioInfo.Visible = false;
                 }
             }
         }
@@ -71,7 +86,6 @@ namespace Prueba
         private void MarkActive(string anchorId, bool active)
         {
             if (!active) return;
-            // Buscamos el control recursivamente por si está dentro de otros contenedores
             var ctl = FindControlRecursive(this, anchorId) as HtmlAnchor;
             if (ctl == null) return;
 
@@ -89,6 +103,17 @@ namespace Prueba
                 if (r != null) return r;
             }
             return null;
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            // Cerrar sesión completamente
+            Session.Abandon();
+            Session.Clear();
+            System.Web.Security.FormsAuthentication.SignOut();
+
+            // Redirigir al Login
+            Response.Redirect("~/Login.aspx");
         }
     }
 }
