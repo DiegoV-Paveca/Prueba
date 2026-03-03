@@ -75,7 +75,7 @@ namespace Prueba
 
                         if (count == 0)
                         {
-                            mensaje = "El usuario NO existe en la base de datos.";
+                            mensaje = "El usuario no existe.";
                             return false;
                         }
                     }
