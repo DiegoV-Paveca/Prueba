@@ -101,7 +101,7 @@
                         if (element && i < text.length) {
                             element.innerHTML += text.charAt(i);
                             i++;
-                            setTimeout(type, 50); // Velocidad de escritura
+                            setTimeout(type, 35); // Velocidad de escritura
                         } else if (callback) {
                             callback();
                         }
@@ -131,8 +131,8 @@
 
                     // Calcular rotación (máximo 10 grados)
                     // Multiplicamos por -1 en X para que incline "hacia" el mouse verticalmente
-                    const rotateX = ((y - centerY) / centerY) * -10;
-                    const rotateY = ((x - centerX) / centerX) * 10;
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
 
                     // Aplicar transformación
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
@@ -149,7 +149,7 @@
                ------------------------------------------------ */
             const BASE_NODE_COUNT = 70;
             const MAX_DIST = 150;
-            const SPEED = 0.60;
+            const SPEED = 0.30;
             const FPS = 30;
             const COLOR_POINT = 'rgba(255,255,255,0.2)'; // Puntos mucho más sutiles
             const COLOR_LINE_BASE = 'rgba(255,255,255,';

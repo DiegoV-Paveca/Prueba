@@ -4,6 +4,19 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using System.Web.UI;
 
+/* Como agregar usuario en SQL
+
+INSERT INTO dbo.login (usuario, email, passwordHash, fechaRegistro)
+VALUES (
+    'nuevo_usuario_encriptado', 
+    'nuevo@paveca.com.ve', 
+    HASHBYTES('SHA2_256', '123456'), -- Prueba cambiando SHA2_256 por SHA1 o MD5 si no funciona
+    GETDATE()
+);
+*/
+
+
+
 namespace Prueba
 {
     public partial class Login : System.Web.UI.Page
