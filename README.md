@@ -1,9 +1,9 @@
 # Prueba
 
 Instalar dependencias y paquetes
-  Update-Package -reinstall
+  >Update-Package -reinstall
   
->Tecnologias Utilizadas
+Tecnologias Utilizadas
 >Framework: .NET Framework 4.8
 >Lenguaje de Programación: C#
 >Base de Datos: SQL Server
