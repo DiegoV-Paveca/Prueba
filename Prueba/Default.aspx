@@ -1,109 +1,149 @@
-﻿<%@ Page Title="Pagina Principal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Prueba._Default" %>
+﻿<%@ Page Title="Página Principal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Prueba._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <main class="container py-4">
-        <section class="pv-hero">
-            <div class="container">
-                <div class="row align-items-center g-3">
+    <!-- Estilos específicos para esta página -->
+    <style>
+        .text-paveca { color: #007853; }
+        .bg-paveca-light { background-color: #f0f7f5; }
+        .btn-paveca { background-color: #007853; color: white; border: 1px solid #007853; }
+        .btn-paveca:hover { background-color: #005f42; color: white; }
+        .btn-outline-paveca { color: #007853; border: 1px solid #007853; background: transparent; }
+        .btn-outline-paveca:hover { background-color: #007853; color: white; }
+        
+        /* Efecto de elevación para las tarjetas de servicios */
+        .service-card { transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #eee; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: #007853; }
+        
+        .icon-box {
+            width: 60px; height: 60px;
+            background-color: #e6f2ed;
+            color: #007853;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+
+    <main>
+        <!-- CONTENEDOR PRINCIPAL TIPO TARJETA -->
+        <div class="bg-white mx-auto shadow-sm my-5" style="max-width:1200px; border-radius:8px; border-top: 5px solid #007853; overflow: hidden;">
+            
+            <!-- SECCIÓN HERO (Intro) -->
+            <div class="p-5">
+                <div class="row align-items-center g-5">
+                    
+                    <!-- Columna Izquierda: Texto Principal -->
                     <div class="col-lg-7">
-                        <h1>Soluciones papeleras para un país que produce</h1>
-                        <p class="lead">
-                            Somos una industria papelera líder en Venezuela. Fabricamos y convertimos productos
-                            confiables para el cuidado del hogar y uso industrial, con procesos responsables y
-                            calidad consistente.
+                        <span class="badge bg-paveca-light text-paveca mb-3 px-3 py-2 rounded-pill fw-bold">Líderes en Venezuela 🇻🇪</span>
+                        <h1 class="fw-bold display-5 mb-4 text-dark">Soluciones papeleras para un país que produce.</h1>
+                        <p class="lead text-muted mb-4" style="line-height: 1.6;">
+                            <strong> Fabricamos y convertimos productos confiables para el cuidado del hogar y uso industrial, 
+                            con procesos responsables y una calidad consistente que nos respalda desde hace décadas.</strong>
                         </p>
 
-                        <div class="d-flex flex-wrap gap-3 btn-stack">
-                            <a href="/Contact.aspx" class="btn-primary-invert">Habla con nosotros</a>
-                            <a href="/About.aspx" class="btn btn-outline-light">Conoce PAVECA</a>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="/Contact.aspx" class="btn btn-paveca px-4 py-2 rounded-pill fw-bold">Habla con nosotros</a>
+                            <a href="/About.aspx" class="btn btn-outline-paveca px-4 py-2 rounded-pill fw-bold">Conoce PAVECA</a>
                         </div>
 
-                        <div class="d-flex align-items-center gap-3 mt-4" style="color:rgba(255,255,255,.85);">
-                            <span style="opacity:.45;">•</span>
-                            <small>Compromiso con la calidad</small>
-                            <span style="opacity:.45;">•</span>
-                            <small>Fabricación y conversión</small>
-                            <span style="opacity:.45;">•</span>
-                            <small>Enfoque en sostenibilidad</small>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <!-- Espacio limpio/minimal en lugar de mockup pesado -->
-                        <div class="pv-kpis">
-                            <div class="row g-3 text-center">
-                                <div class="col-4 pv-kpi">
-                                    <h3>73</h3>
-                                    <p>Años de trayectoria</p>
-                                </div>
-                                <div class="col-4 pv-kpi">
-                                    <h3>+X</h3>
-                                    <p>Colaboradores</p>
-                                </div>
-                                <div class="col-4 pv-kpi">
-                                    <h3>100%</h3>
-                                    <p>Lideres del mercado</p>
-                                </div>
+                        <!-- Pequeños puntos de confianza -->
+                        <div class="d-flex align-items-center gap-4 mt-5 text-muted small fw-bold">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-check-circle-fill text-paveca"></i> Calidad Certificada
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-check-circle-fill text-paveca"></i> Sostenibilidad
                             </div>
                         </div>
-                        <p class="mt-3 mb-0" style="color:rgba(255,255,255,.85);">
-                            Cadena integrada: pulpa, papel y conversión.
-                        </p>
+                    </div>
+
+                    <!-- Columna Derecha: KPIs (Estadísticas) -->
+                    <div class="col-lg-5">
+                        <div class="bg-paveca-light p-4 rounded-3 text-center">
+                            <h5 class="text-paveca fw-bold mb-4">Nuestro Impacto</h5>
+                            
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="bg-white p-3 rounded shadow-sm h-100">
+                                        <h2 class="fw-bold text-dark mb-0">73</h2>
+                                        <small class="text-muted">Años de trayectoria</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="bg-white p-3 rounded shadow-sm h-100">
+                                        <h2 class="fw-bold text-dark mb-0">+1000</h2>
+                                        <small class="text-muted">Colaboradores</small>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="bg-white p-3 rounded shadow-sm">
+                                        <h2 class="fw-bold text-dark mb-0">100%</h2>
+                                        <small class="text-muted">Compromiso Nacional</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="mt-4 mb-0 small text-muted">
+                                <i class="bi bi-info-circle me-1"></i> Cadena integrada: pulpa, papel y conversión.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- LÍNEA DE PRODUCTO / CAPACIDADES -->
-        <section class="my-5">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="pv-card">
-                        <div class="pv-icon">
-                            <i class="bi bi-layers"></i>
+            <hr class="mx-5 opacity-25">
+
+            <!-- SECCIÓN DE SERVICIOS / CARACTERÍSTICAS -->
+            <div class="p-5">
+                <div class="row g-4">
+                    <!-- Tarjeta 1 -->
+                    <div class="col-md-4">
+                        <div class="service-card p-4 rounded-3 h-100 bg-white">
+                            <div class="icon-box">
+                                <i class="bi bi-layers-fill"></i>
+                            </div>
+                            <h4 class="fw-bold mb-3">Papel & Celulosa</h4>
+                            <p class="text-muted">
+                                Fabricación de papeles base con estrictos controles de calidad en cada bobina para garantizar resistencia y suavidad.
+                            </p>
                         </div>
-                        <h5>Papel & Celulosa</h5>
-                        <p>Fabricación de papeles base con control de calidad en cada bobina.</p>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="pv-card">
-                        <div class="pv-icon">
-                            <i class="bi bi-box-seam"></i>
+
+                    <!-- Tarjeta 2 -->
+                    <div class="col-md-4">
+                        <div class="service-card p-4 rounded-3 h-100 bg-white">
+                            <div class="icon-box">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                            <h4 class="fw-bold mb-3">Conversión & Empaque</h4>
+                            <p class="text-muted">
+                                Toallas, servilletas, tissue y soluciones listas para retail y B2B, adaptadas a las necesidades del mercado actual.
+                            </p>
                         </div>
-                        <h5>Conversión & Empaque</h5>
-                        <p>Toallas, servilletas, tissue y soluciones listas para retail y B2B.</p>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="pv-card">
-                        <div class="pv-icon">
-                        <i class="bi bi-bar-chart-line"></i>
+
+                    <!-- Tarjeta 3 -->
+                    <div class="col-md-4">
+                        <div class="service-card p-4 rounded-3 h-100 bg-white">
+                            <div class="icon-box">
+                                <i class="bi bi-tree-fill"></i>
+                            </div>
+                            <h4 class="fw-bold mb-3">Sostenibilidad</h4>
+                            <p class="text-muted">
+                                Uso eficiente de agua y energía, programas de reciclaje y mejora continua para reducir nuestra huella ambiental.
+                            </p>
                         </div>
-                        <h5>Sostenibilidad</h5>
-                        <p>Uso eficiente de agua y energía, reciclaje y mejora continua.</p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- CTA FINAL -->
-        <section class="pv-cta my-4">
-            <div class="row align-items-center g-3">
-                <div class="col-lg-8">
-                    <h4 style="margin:0 0 .25rem 0; color:var(--pv-ink);">¿Hablamos sobre tus necesidades de papel?</h4>
-                    <p style="margin:0; color:var(--pv-muted);">
-                        Nuestro equipo te acompaña desde la especificación técnica hasta la entrega.
-                    </p>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <a href="/Contact.aspx" class="btn btn-success" style="background:var(--pv-primary); border-color:var(--pv-primary);">
-                        Contactar
-                    </a>
-                </div>
+            <!-- Footer interno pequeño -->
+            <div class="text-center py-3 bg-light border-top">
+                <small class="text-muted">© 2026 Papeles Venezolanos C.A. - Todos los derechos reservados.</small>
             </div>
-        </section>
 
+        </div>
     </main>
+
 </asp:Content>

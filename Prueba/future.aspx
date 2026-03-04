@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Futuro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Contact.aspx.cs" Inherits="Prueba.future" %>
+﻿<%@ Page Title="Futuro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Future.aspx.cs" Inherits="Prueba.future" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -9,14 +9,15 @@
 
     <!-- Contenido principal (encima del canvas) -->
     <div class="container content-overlay">
-        <h1 class="display-4 fw-bold text-white mb-3">El Futuro de PAVECA</h1>
-        <p class="lead text-white-50 mb-5">
-            Innovación, tecnología y redes de distribución interconectadas en constante movimiento.
+        <h1 class="display-4 fw-bold text-white mb-3" id="typing-title" style="min-height: 1.2em;"></h1>
+        <p class="lead text-white-50" id="typing-text" style="min-height: 1.5em;">
+           
         </p>
 
-        <div class="row g-4">
+        <div class="row g-4 perspective-container">
             <div class="col-md-6">
-                <div class="glass-card">
+                <!-- Agregamos clase 'interactive-card' para el JS -->
+                <div class="glass-card interactive-card">
                     <h3>Red de Distribución</h3>
                     <p>
                         Nuestros nodos logísticos se conectan entre si para optimizar las entregas a nivel nacional,
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="glass-card">
+                <div class="glass-card interactive-card">
                     <h3>Análisis de Datos</h3>
                     <p>
                         Procesamos miles de variables simultáneas para garantizar la calidad en cada bobina de papel,
@@ -36,23 +37,24 @@
         </div>
     </div>
 
-    <!-- ====== Estilos mínimos (puedes moverlos a Site.css) ====== -->
+    <!-- ====== Estilos mínimos ====== -->
     <style>
         /* El canvas cubre toda la pantalla por detrás del contenido */
         #futuristic-bg.bg-holder {
-            position: fixed; /* o absolute si prefieres que no siga el scroll */
+            position: fixed;
             inset: 0;
-            z-index: 0;           /* detrás del contenido */
-            pointer-events: none; /* no bloquea clicks */
+            z-index: 0;
+            pointer-events: none;
             background: transparent;
         }
 
         .content-overlay {
             position: relative;
             z-index: 1;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8); /* Sombra fuerte para legibilidad */
         }
 
-        /* Tarjetas con efecto vidrio (opcional) */
+        /* Tarjetas con efecto vidrio */
         .glass-card {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -60,30 +62,101 @@
             padding: 1.25rem;
             color: #fff;
             backdrop-filter: blur(8px);
+            
+            /* Propiedades para el efecto 3D */
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.1s ease-out; /* Movimiento suave */
+            will-change: transform;
         }
 
-        /* Si el usuario pide menos animación, la desactivamos */
+        /* Efecto de profundidad para el texto */
+        .glass-card h3, 
+        .glass-card p {
+            transform: translateZ(20px); /* El texto flota sobre la tarjeta */
+        }
+
         @media (prefers-reduced-motion: reduce) {
             #futuristic-bg { display: none !important; }
+            .glass-card { transform: none !important; }
         }
     </style>
 
-    <!-- ====== Script Canvas 2D de alto rendimiento ====== -->
+    <!-- ====== Script Canvas 2D + Efecto Tilt ====== -->
     <script>
         (function () {
-            // Configuración general (puedes ajustar valores)
-            const BASE_NODE_COUNT = 70;     // cantidad de puntos
-            const MAX_DIST = 150;           // distancia máxima para conectar puntos
-            const SPEED = 0.60;             // velocidad base
-            const FPS = 30;                 // límite de frames por segundo
-            const COLOR_POINT = 'rgba(255,255,255,0.85)';
-            const COLOR_LINE_BASE = 'rgba(255,255,255,'; // se completa con opacidad ")"
+            /* ------------------------------------------------
+               EFECTO DE ESCRITURA (TYPEWRITER) - TÍTULO Y SUBTÍTULO
+               ------------------------------------------------ */
+            const titleText = "El Futuro de PAVECA";
+            const subText = "Innovación, tecnología y redes de distribución interconectadas en constante movimiento.";
 
-            // Ajustes por dispositivo
+            const titleEl = document.getElementById('typing-title');
+            const subEl = document.getElementById('typing-text');
+
+            function typeLine(text, element, delay, callback) {
+                let i = 0;
+                setTimeout(() => {
+                    function type() {
+                        if (element && i < text.length) {
+                            element.innerHTML += text.charAt(i);
+                            i++;
+                            setTimeout(type, 50); // Velocidad de escritura
+                        } else if (callback) {
+                            callback();
+                        }
+                    }
+                    type();
+                }, delay);
+            }
+
+            // Secuencia: Título -> Pausa -> Subtítulo
+            typeLine(titleText, titleEl, 500, () => {
+                typeLine(subText, subEl, 300, null);
+            });
+
+            /* ------------------------------------------------
+               EFECTO TILT (MOVIMIENTO CON EL CURSOR)
+               ------------------------------------------------ */
+            const cards = document.querySelectorAll('.interactive-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // Posición X dentro de la tarjeta
+                    const y = e.clientY - rect.top;  // Posición Y dentro de la tarjeta
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Calcular rotación (máximo 10 grados)
+                    // Multiplicamos por -1 en X para que incline "hacia" el mouse verticalmente
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    // Aplicar transformación
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+
+                // Resetear al salir
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+            /* ------------------------------------------------
+               CANVAS BACKGROUND
+               ------------------------------------------------ */
+            const BASE_NODE_COUNT = 70;
+            const MAX_DIST = 150;
+            const SPEED = 0.60;
+            const FPS = 30;
+            const COLOR_POINT = 'rgba(255,255,255,0.2)'; // Puntos mucho más sutiles
+            const COLOR_LINE_BASE = 'rgba(255,255,255,';
+
             const isMobile = window.matchMedia('(pointer: coarse)').matches;
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            // Bajamos carga en móviles
             const NODE_COUNT = isMobile ? Math.max(30, Math.round(BASE_NODE_COUNT * 0.6)) : BASE_NODE_COUNT;
             const EFFECT_MAX_DIST = isMobile ? Math.round(MAX_DIST * 0.8) : MAX_DIST;
             const EFFECT_SPEED = isMobile ? SPEED * 0.7 : SPEED;
@@ -91,9 +164,7 @@
             document.addEventListener('DOMContentLoaded', init, { once: true });
 
             function init() {
-                // Si el usuario pidió menos animación, desactiva
                 if (prefersReduced) return;
-
                 document.body.classList.add('page-futuro');
 
                 const holder = document.getElementById('futuristic-bg');
@@ -101,8 +172,6 @@
                 if (!holder || !canvas) return;
 
                 const ctx = canvas.getContext('2d', { alpha: true });
-
-                // Limita DPR para no disparar píxeles en 4K; 1.5 suele dar buen balance
                 let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
                 let w = 0, h = 0;
 
@@ -116,21 +185,18 @@
                     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 }
 
-                // Nodos
-                const POINT_MIN = 2.2, POINT_MAX = 4.5;
                 const nodes = new Array(NODE_COUNT).fill(0).map((_, i) => ({
                     id: i,
                     x: Math.random() * window.innerWidth,
                     y: Math.random() * window.innerHeight,
-                    r: POINT_MIN + Math.random() * (POINT_MAX - POINT_MIN),
+                    r: 2.2 + Math.random() * (4.5 - 2.2),
                     vx: (Math.random() - 0.5) * EFFECT_SPEED * 2,
                     vy: (Math.random() - 0.5) * EFFECT_SPEED * 2
                 }));
 
-                // Rejilla espacial
-                const CELL = EFFECT_MAX_DIST; // tamaño de celda ≈ distancia de conexión
+                const CELL = EFFECT_MAX_DIST;
                 function buildGrid() {
-                    const grid = new Map(); // key: "cx,cy" -> array de índices
+                    const grid = new Map();
                     for (let i = 0; i < nodes.length; i++) {
                         const n = nodes[i];
                         const cx = (n.x / CELL) | 0;
@@ -143,15 +209,13 @@
                     return grid;
                 }
 
-                // Animación con requestAnimationFrame + límite de FPS
-                let running = true, animId = null, last = 0, interval = 1000 / FPS;
+                let running = true, last = 0, interval = 1000 / FPS;
 
                 function step(ts) {
-                    if (!running) { animId = requestAnimationFrame(step); return; }
-                    if (ts - last < interval) { animId = requestAnimationFrame(step); return; }
+                    if (!running) { requestAnimationFrame(step); return; }
+                    if (ts - last < interval) { requestAnimationFrame(step); return; }
                     last = ts;
 
-                    // Actualización de posiciones
                     for (let i = 0; i < nodes.length; i++) {
                         const n = nodes[i];
                         n.x += n.vx; n.y += n.vy;
@@ -159,20 +223,17 @@
                         if (n.y < 0 || n.y > h) n.vy *= -1;
                     }
 
-                    // Construye rejilla y pinta
                     const grid = buildGrid();
                     const max2 = EFFECT_MAX_DIST * EFFECT_MAX_DIST;
 
                     ctx.clearRect(0, 0, w, h);
 
-                    // Líneas primero (puntos encima)
                     ctx.lineWidth = 1;
                     for (let i = 0; i < nodes.length; i++) {
                         const a = nodes[i];
                         const cx = (a.x / CELL) | 0;
                         const cy = (a.y / CELL) | 0;
 
-                        // Celda propia + 8 vecinas
                         for (let ox = -1; ox <= 1; ox++) {
                             for (let oy = -1; oy <= 1; oy++) {
                                 const key = (cx + ox) + ',' + (cy + oy);
@@ -181,14 +242,13 @@
 
                                 for (let k = 0; k < bucket.length; k++) {
                                     const j = bucket[k];
-                                    if (j <= i) continue; // evita duplicados
+                                    if (j <= i) continue;
                                     const b = nodes[j];
-
                                     const dx = a.x - b.x, dy = a.y - b.y;
                                     const d2 = dx * dx + dy * dy;
                                     if (d2 < max2) {
                                         const d = Math.sqrt(d2);
-                                        const op = (1 - d / EFFECT_MAX_DIST) * 0.6; // opacidad
+                                        const op = (1 - d / EFFECT_MAX_DIST) * 0.15; // Líneas más transparentes
                                         ctx.strokeStyle = COLOR_LINE_BASE + op + ')';
                                         ctx.beginPath();
                                         ctx.moveTo(a.x, a.y);
@@ -200,7 +260,6 @@
                         }
                     }
 
-                    // Puntos
                     ctx.fillStyle = COLOR_POINT;
                     for (let i = 0; i < nodes.length; i++) {
                         const n = nodes[i];
@@ -209,10 +268,9 @@
                         ctx.fill();
                     }
 
-                    animId = requestAnimationFrame(step);
+                    requestAnimationFrame(step);
                 }
 
-                // Resize (con debounce)
                 let rzT;
                 function onResize() {
                     clearTimeout(rzT);
@@ -222,12 +280,8 @@
                     }, 120);
                 }
 
-                // Pausa por visibilidad de pestaña
-                function onVisibility() {
-                    running = !document.hidden;
-                }
+                function onVisibility() { running = !document.hidden; }
 
-                // Pausa si el canvas no está en viewport
                 let io = null;
                 if ('IntersectionObserver' in window) {
                     io = new IntersectionObserver(([entry]) => {
@@ -236,17 +290,14 @@
                     io.observe(holder);
                 }
 
-                // Inicializa
                 resize();
-                animId = requestAnimationFrame(step);
+                requestAnimationFrame(step);
 
                 window.addEventListener('resize', onResize);
                 document.addEventListener('visibilitychange', onVisibility);
 
-                // Limpieza
                 window.addEventListener('beforeunload', () => {
                     running = false;
-                    cancelAnimationFrame(animId);
                     window.removeEventListener('resize', onResize);
                     document.removeEventListener('visibilitychange', onVisibility);
                     if (io) io.disconnect();

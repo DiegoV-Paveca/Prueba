@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Zona Confidencial" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Misterio.aspx.cs" Inherits="Prueba.Misterio" %>
+﻿<%@ Page Title="Acceso concedido" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Misterio.aspx.cs" Inherits="Prueba.Misterio" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container py-5">

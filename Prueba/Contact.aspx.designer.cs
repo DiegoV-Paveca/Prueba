@@ -11,7 +11,7 @@ namespace Prueba
 {
 
 
-    public partial class future
+    public partial class Contact
     {
     }
 }

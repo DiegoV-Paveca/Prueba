@@ -10,100 +10,121 @@
   <!-- FONDO SUTIL MINIMALISTA (Patrón de puntos) -->
   <div class="proyect-bg-pattern"></div>
 
-  <main class="container py-5 page-proyect">
-    <div class="mx-auto pv-shell">
-
-      <!-- HEADER MINIMALISTA Y BOTONES CLAROS -->
-      <header class="pv-header row g-3 align-items-end mb-4">
-        <div class="col-lg-5">
-          <h1 class="pv-title m-0">Ventas 2024</h1>
-          <p class="pv-subtitle m-0 mt-1">
-              <span id="liveIndicator" class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">
-                  <i class="bi bi-circle-fill small me-1" style="font-size: 0.6em;"></i> En vivo
-              </span>
-              &nbsp;• Seguimiento mensual (Toneladas)
-          </p>
-        </div>
-        <div class="col-lg-7 text-lg-end">
-          <div class="d-flex justify-content-lg-end">
-          <div class="btn-group" role="group" aria-label="Export y acciones">
-            <button type="button" class="btn btn-export btn-export-png btn-bounce shadow-sm" id="btnDownload" title="Descargar como Imagen PNG">
-              <i class="bi bi-image"></i> Imagen
-            </button>
-            <button type="button" class="btn btn-export btn-export-pdf btn-bounce shadow-sm" id="btnPdf" title="Descargar como Documento PDF">
-              <i class="bi bi-filetype-pdf"></i> PDF
-            </button>
-            <button type="button" class="btn btn-export btn-export-excel btn-bounce shadow-sm" id="btnExcel" title="Descargar como Hoja de Cálculo Excel">
-              <i class="bi bi-file-earmark-spreadsheet"></i> Excel
-            </button>
-            <button type="button" class="btn btn-pv-primary btn-bounce shadow-sm" id="btnRefresh">
-              <i class="bi bi-arrow-repeat"></i> Actualizar Ahora
-            </button>
+  <main class="container py-4">
+    <!-- CONTENEDOR PRINCIPAL TIPO TARJETA (Diseño Unificado) -->
+    <div class="bg-white mx-auto shadow-sm" style="max-width:1200px; border-radius:8px; border-top: 5px solid #007853; overflow: hidden;">
+      
+      <div class="p-4 p-lg-5">
+        <!-- HEADER MINIMALISTA Y BOTONES CLAROS -->
+        <header class="row g-3 align-items-end mb-5 border-bottom pb-4">
+          <div class="col-lg-5">
+            <h1 class="fw-bold text-dark m-0" style="letter-spacing: -0.5px;">Ventas 2024</h1>
+            <p class="text-muted m-0 mt-2 d-flex align-items-center">
+                <span id="liveIndicator" class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-2 fw-normal">
+                    <i class="bi bi-circle-fill small me-1" style="font-size: 0.6em;"></i> En vivo
+                </span>
+                <span class="mx-2">•</span> Seguimiento mensual (Toneladas)
+            </p>
           </div>
-        </div>
-        </div>
-      </header>
-
-      <!-- KPIs (Tarjetas flotantes) -->
-      <section class="row g-4 mb-4">
-        <div class="col-6 col-md-3">
-            <div class="pv-kpi">
-                <div class="d-flex justify-content-between align-items-start">
-                    <span class="pv-kpi-label">Total año</span>
-                    <i class="bi bi-calendar3 text-muted opacity-50"></i>
-                </div>
-                <span class="pv-kpi-value" id="kpiTotal">—</span>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="pv-kpi">
-                <div class="d-flex justify-content-between align-items-start">
-                    <span class="pv-kpi-label">Promedio mensual</span>
-                    <i class="bi bi-calculator text-muted opacity-50"></i>
-                </div>
-                <span class="pv-kpi-value" id="kpiProm">—</span>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="pv-kpi">
-                <div class="d-flex justify-content-between align-items-start">
-                    <span class="pv-kpi-label">Máximo</span>
-                    <i class="bi bi-graph-up-arrow text-success opacity-75"></i>
-                </div>
-                <span class="pv-kpi-value" id="kpiMax">—</span>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="pv-kpi">
-                <div class="d-flex justify-content-between align-items-start">
-                    <span class="pv-kpi-label">Mínimo</span>
-                    <i class="bi bi-graph-down-arrow text-danger opacity-75"></i>
-                </div>
-                <span class="pv-kpi-value" id="kpiMin">—</span>
-            </div>
-        </div>
-      </section>
-
-      <!-- TARJETA DEL GRÁFICO -->
-      <section class="pv-card shadow-sm">
-        <div class="pv-card-header">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-2">
-              <div class="icon-box">
-                  <i class="bi bi-bar-chart-fill"></i>
+          <div class="col-lg-7 text-lg-end">
+            <div class="d-flex justify-content-lg-end flex-wrap gap-2">
+              <div class="btn-group shadow-sm rounded-pill overflow-hidden" role="group" aria-label="Export y acciones">
+                <button type="button" class="btn btn-light border-end btn-export-png" id="btnDownload" title="Descargar como Imagen PNG">
+                  <i class="bi bi-image text-primary"></i> <span class="d-none d-md-inline ms-1">Imagen</span>
+                </button>
+                <button type="button" class="btn btn-light border-end btn-export-pdf" id="btnPdf" title="Descargar como Documento PDF">
+                  <i class="bi bi-filetype-pdf text-danger"></i> <span class="d-none d-md-inline ms-1">PDF</span>
+                </button>
+                <button type="button" class="btn btn-light btn-export-excel" id="btnExcel" title="Descargar como Hoja de Cálculo Excel">
+                  <i class="bi bi-file-earmark-spreadsheet text-success"></i> <span class="d-none d-md-inline ms-1">Excel</span>
+                </button>
               </div>
-              <strong style="color: var(--text-main);">Producción PAVECA (Base de Datos)</strong>
-            </div>
-            <div class="d-none d-md-flex align-items-center gap-2 pv-legend-hint">
-              <span class="pv-dot" style="--dot:#007853"></span> Venezuela
+              
+              <button type="button" class="btn btn-paveca shadow-sm rounded-pill px-4" id="btnRefresh">
+                <i class="bi bi-arrow-repeat me-1"></i> Actualizar
+              </button>
             </div>
           </div>
-        </div>
+        </header>
 
-        <div class="pv-card-body">
-          <div id="chartProduccion" class="pv-chart" role="img" aria-label="Gráfico de líneas de producción mensual"></div>
-        </div>
-      </section> 
+        <!-- KPIs (Tarjetas flotantes) -->
+        <section class="row g-4 mb-5">
+          <div class="col-6 col-md-3">
+              <div class="p-4 rounded-3 border bg-light h-100 position-relative overflow-hidden kpi-card">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                      <span class="text-uppercase text-muted fw-bold small tracking-wide">Total año</span>
+                      <div class="icon-circle bg-white text-muted shadow-sm">
+                        <i class="bi bi-calendar3"></i>
+                      </div>
+                  </div>
+                  <span class="display-6 fw-bold text-dark" id="kpiTotal">—</span>
+              </div>
+          </div>
+          <div class="col-6 col-md-3">
+              <div class="p-4 rounded-3 border bg-light h-100 position-relative overflow-hidden kpi-card">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                      <span class="text-uppercase text-muted fw-bold small tracking-wide">Promedio</span>
+                      <div class="icon-circle bg-white text-muted shadow-sm">
+                        <i class="bi bi-calculator"></i>
+                      </div>
+                  </div>
+                  <span class="display-6 fw-bold text-dark" id="kpiProm">—</span>
+              </div>
+          </div>
+          <div class="col-6 col-md-3">
+              <div class="p-4 rounded-3 border bg-light h-100 position-relative overflow-hidden kpi-card">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                      <span class="text-uppercase text-muted fw-bold small tracking-wide">Máximo</span>
+                      <div class="icon-circle bg-success bg-opacity-10 text-success shadow-sm">
+                        <i class="bi bi-graph-up-arrow"></i>
+                      </div>
+                  </div>
+                  <span class="display-6 fw-bold text-dark" id="kpiMax">—</span>
+              </div>
+          </div>
+          <div class="col-6 col-md-3">
+              <div class="p-4 rounded-3 border bg-light h-100 position-relative overflow-hidden kpi-card">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                      <span class="text-uppercase text-muted fw-bold small tracking-wide">Mínimo</span>
+                      <div class="icon-circle bg-danger bg-opacity-10 text-danger shadow-sm">
+                        <i class="bi bi-graph-down-arrow"></i>
+                      </div>
+                  </div>
+                  <span class="display-6 fw-bold text-dark" id="kpiMin">—</span>
+              </div>
+          </div>
+        </section>
+
+        <!-- TARJETA DEL GRÁFICO -->
+        <section class="card border-0 shadow-none">
+          <div class="card-header bg-transparent border-0 p-0 mb-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3">
+                <div class="icon-box-lg bg-paveca-light text-paveca rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="bi bi-bar-chart-fill fs-4"></i>
+                </div>
+                <div>
+                  <h5 class="fw-bold text-dark m-0">Producción PAVECA</h5>
+                  <small class="text-muted">Datos en tiempo real desde la Base de Datos</small>
+                </div>
+              </div>
+              <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border">
+                <span class="pv-dot" style="--dot:#007853"></span> <span class="small fw-bold text-muted">Venezuela</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            <div id="chartProduccion" class="w-100" style="height: 450px;" role="img" aria-label="Gráfico de líneas de producción mensual"></div>
+          </div>
+        </section> 
+      </div>
+      
+      <!-- Footer interno pequeño -->
+      <div class="text-center py-3 bg-light border-top mt-4">
+          <small class="text-muted">© 2026 Papeles Venezolanos C.A. - Todos los derechos reservados.</small>
+      </div>
+
     </div>       
   </main>
 
@@ -123,98 +144,22 @@
         background-image: radial-gradient(rgba(0, 120, 83, 0.08) 1px, transparent 1px);
         background-size: 24px 24px; 
     }
-    [data-theme="dark"] .proyect-bg-pattern {
-        background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    }
-
-    /* ==========================================================================
-       ESTILOS DE LA PÁGINA
-       ========================================================================== */
-    .pv-shell { max-width: 1100px; } 
-    .pv-title { font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
-    .pv-subtitle { color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; }
-
-    /* Tarjetas KPI */
-    .pv-kpi { 
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .pv-kpi:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    .pv-kpi-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
-    .pv-kpi-value { font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
-
-    /* Tarjeta del Gráfico */
-    .pv-card { 
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        overflow: hidden; 
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    .pv-card-header { 
-        padding: 1.25rem 1.5rem;
-        background: transparent;
-        border-bottom: 1px solid var(--border-color); 
-    }
-    .pv-card-body { padding: 1rem 1.5rem 1.5rem 1.5rem; }
     
-    .icon-box {
-        background: rgba(0, 120, 83, 0.1);
-        color: #007853;
-        width: 32px; height: 32px;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 8px;
-    }
-
+    /* Colores PAVECA */
+    .text-paveca { color: #007853; }
+    .bg-paveca-light { background-color: rgba(0, 120, 83, 0.1); }
+    .btn-paveca { background-color: #007853; color: white; border: 1px solid #007853; transition: all 0.2s; }
+    .btn-paveca:hover { background-color: #005f42; color: white; transform: translateY(-1px); }
+    
+    /* Utilidades */
+    .tracking-wide { letter-spacing: 0.05em; }
+    .icon-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .pv-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dot,#007853); display: inline-block; }
-    .pv-chart { width: 100%; height: 400px; } 
 
-    /* Botones */
-    .btn-export {
-        background: var(--bg-surface);
-        color: var(--text-main);
-        border: 1px solid var(--border-color);
-        font-weight: 600;
-        font-size: 0.85rem;
-        padding: 0.5rem 1.2rem;
-        border-radius: 50rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        transition: all 0.3s ease;
-    }
-    .btn-export-png i:first-child { color: #0d6efd; }
-    .btn-export-pdf i:first-child { color: #dc3545; }
-    .btn-export-excel i:first-child { color: #198754; }
-    .btn-export-png:hover { border-color: #0d6efd; background: rgba(13, 110, 253, 0.1); color: #0d6efd; }
-    .btn-export-pdf:hover { border-color: #dc3545; background: rgba(220, 53, 69, 0.1); color: #dc3545; }
-    .btn-export-excel:hover { border-color: #198754; background: rgba(25, 135, 84, 0.1); color: #198754; }
+    /* KPI Cards Hover Effect */
+    .kpi-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; border-color: #007853 !important; }
 
-    .btn-pv-primary {
-        background: #007853;
-        color: white;
-        border: 1px solid #006447;
-        font-weight: 600;
-        font-size: 0.9rem;
-        padding: 0.5rem 1.2rem;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-    }
-    .btn-pv-primary:hover { background: #006447; color: white; }
-    .btn-bounce:active { transform: translateY(2px) scale(0.98); }
-    
     /* Animación de pulso para el indicador "En vivo" */
     @keyframes pulse-green {
         0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.4); }
@@ -246,8 +191,6 @@
               const el = document.getElementById('chartProduccion');
               if (!el) return;
 
-              if (!el.clientHeight) el.style.height = '400px';
-
               state.chart = echarts.init(el, null, { renderer: 'canvas' });
 
               state.chart.setOption({
@@ -255,25 +198,26 @@
                   tooltip: {
                       trigger: 'axis',
                       axisPointer: { type: 'line' },
-                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
                       borderColor: '#e6e9ee',
-                      textStyle: { color: '#0f172a' }
+                      textStyle: { color: '#0f172a' },
+                      padding: 12,
+                      extraCssText: 'box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-radius: 8px;'
                   },
                   legend: { show: false },
-                  grid: { left: 45, right: 20, top: 20, bottom: 40 },
+                  grid: { left: 50, right: 30, top: 30, bottom: 40, containLabel: true },
                   xAxis: {
                       type: 'category',
                       data: state.meses,
                       boundaryGap: false,
-                      axisLine: { lineStyle: { color: '#adb5bd' } },
-                      axisLabel: { color: '#6b7280' }
+                      axisLine: { lineStyle: { color: '#e2e8f0' } },
+                      axisLabel: { color: '#64748b', fontWeight: 500, margin: 14 },
+                      axisTick: { show: false }
                   },
                   yAxis: {
                       type: 'value',
-                      name: '',
-                      nameTextStyle: { color: '#6b7280', padding: [0, 0, 0, 20] },
-                      splitLine: { lineStyle: { type: 'dashed', color: '#e6e9ee' } },
-                      axisLabel: { color: '#6b7280' },
+                      splitLine: { lineStyle: { type: 'dashed', color: '#f1f5f9' } },
+                      axisLabel: { color: '#64748b' },
                       min: (v) => Math.floor(v.min * 0.9)
                   },
                   series: [{
@@ -281,11 +225,12 @@
                       type: 'line',
                       smooth: true,
                       showSymbol: false,
-                      sampling: 'lttb',
-                      lineStyle: { color: '#007853', width: 3 },
+                      symbolSize: 8,
+                      itemStyle: { color: '#007853', borderColor: '#fff', borderWidth: 2 },
+                      lineStyle: { color: '#007853', width: 3, shadowColor: 'rgba(0, 120, 83, 0.2)', shadowBlur: 10 },
                       areaStyle: {
                           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                              { offset: 0, color: 'rgba(0, 120, 83, 0.3)' },
+                              { offset: 0, color: 'rgba(0, 120, 83, 0.15)' },
                               { offset: 1, color: 'rgba(0, 120, 83, 0.0)' }
                           ])
                       },
@@ -314,33 +259,18 @@
               } else {
                   window.addEventListener('resize', () => state.chart && state.chart.resize());
               }
-
-              window.addEventListener('themeChanged', function (e) {
-                  var newTheme = e.detail;
-                  var textColor = newTheme === 'dark' ? '#adb5bd' : '#6b7280';
-                  var splitLineColor = newTheme === 'dark' ? '#333333' : '#e6e9ee';
-                  var tooltipBg = newTheme === 'dark' ? 'rgba(30, 30, 30, 0.9)' : 'rgba(255, 255, 255, 0.9)';
-                  var tooltipText = newTheme === 'dark' ? '#f8f9fa' : '#0f172a';
-
-                  state.chart.setOption({
-                      tooltip: { backgroundColor: tooltipBg, borderColor: splitLineColor, textStyle: { color: tooltipText } },
-                      xAxis: { axisLine: { lineStyle: { color: textColor } }, axisLabel: { color: textColor } },
-                      yAxis: { nameTextStyle: { color: textColor }, splitLine: { lineStyle: { color: splitLineColor } }, axisLabel: { color: textColor } }
-                  });
-              });
           }
 
           // =========================================================
           // FUNCIÓN: OBTENER DATOS DE LA BD
           // =========================================================
           function refreshAll(silent) {
-              // Solo mostramos el spinner si NO es una actualización silenciosa (automática)
               if (!silent) {
                   state.chart.showLoading({
                       text: 'Cargando BD...',
                       color: '#007853',
                       textColor: '#007853',
-                      maskColor: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                      maskColor: 'rgba(255, 255, 255, 0.8)',
                       zlevel: 0
                   });
               }
@@ -349,18 +279,16 @@
               fetch('Proyect.aspx/ObtenerDatosProduccion', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: '{}',
-                  credentials: 'include' 
+                  body: '{}'
               })
                   .then(response => response.json())
                   .then(data => {
-                      const datosBD = data.d; // ASP.NET devuelve los datos en ".d"
+                      const datosBD = data.d;
 
                       if (!datosBD || datosBD.length === 0) {
                           console.warn("BD vacía o error.");
                           state.datos = Array(12).fill(0);
                       } else {
-                          // Comprobación simple: Si los datos son idénticos, no redibujamos (ahorra recursos)
                           if (JSON.stringify(state.datos) === JSON.stringify(datosBD)) {
                               if (!silent) state.chart.hideLoading();
                               return;
@@ -375,10 +303,7 @@
                   })
                   .catch(error => {
                       console.error('Error BD:', error);
-                      if (!silent) {
-                          state.chart.hideLoading();
-                          // Opcional: alert('Error de conexión');
-                      }
+                      if (!silent) state.chart.hideLoading();
                   });
           }
 
@@ -406,7 +331,7 @@
 
               btnRefresh && btnRefresh.addEventListener('click', () => {
                   btnRefresh.blur();
-                  refreshAll(false); // Forzamos spinner al hacer clic manual
+                  refreshAll(false);
               });
 
               btnDownload && btnDownload.addEventListener('click', () => runWithGuard(btnDownload, () => {
