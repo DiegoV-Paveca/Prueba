@@ -121,6 +121,7 @@
     <Content Include="imagenes\logopaveca.png" />
     <Content Include="imagenes\Papel-de-Venezolanos-celebra-71-anos-de-liderazgo-y-compromiso-con-la-calidad.jpg" />
     <Content Include="imagenes\productos.PNG" />
+    <Content Include="Kanvan.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Misterio.aspx" />
     <Content Include="Proyect.aspx" />
@@ -219,6 +220,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Kanvan.aspx.cs">
+      <DependentUpon>Kanvan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Kanvan.aspx.designer.cs">
+      <DependentUpon>Kanvan.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="<%= ResolveUrl("~/imagenes/favicon.png?v=1") %>" />
     <!-- Bootstrap primero -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" runat="server" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Tu CSS personalizado DESPUÉS de Bootstrap (cache-busting con ?v=) -->
@@ -67,6 +68,8 @@
                             <li class="nav-item"><a class="nav-link" id="navAbout" runat="server" href="~/About">Acerca de</a></li>
                             <li class="nav-item"><a class="nav-link" id="navContact" runat="server" href="~/Contact">Contacto</a></li>
                             <li class="nav-item"><a class="nav-link" id="A1" runat="server" href="~/future">Futuro</a></li>
+                            <li class="nav-item"><a class="nav-link" id="A2" runat="server" href="~/Kanvan">Kanvan</a></li>
+
                         </ul>
 
                         <!-- Panel de Usuario (Botón Salir) -->
